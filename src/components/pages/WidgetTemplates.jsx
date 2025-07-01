@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { toast } from 'react-toastify';
-import ApperIcon from '@/components/ApperIcon';
-import Card from '@/components/atoms/Card';
-import Button from '@/components/atoms/Button';
-import Input from '@/components/atoms/Input';
-import Select from '@/components/atoms/Select';
-import Loading from '@/components/ui/Loading';
-import Error from '@/components/ui/Error';
-import WidgetPreview from '@/components/molecules/WidgetPreview';
-import templateService from '@/services/api/templateService';
-import postService from '@/services/api/postService';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { toast } from "react-toastify";
+import ApperIcon from "@/components/ApperIcon";
+import Card from "@/components/atoms/Card";
+import Select from "@/components/atoms/Select";
+import Input from "@/components/atoms/Input";
+import Button from "@/components/atoms/Button";
+import WidgetPreview from "@/components/molecules/WidgetPreview";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
+import { postService } from "@/services/api/postService";
+import templateService from "@/services/api/templateService";
 
-const WidgetTemplates = () => {
-  const navigate = useNavigate();
-  const [templates, setTemplates] = useState([]);
+function WidgetTemplates() {
+  const navigate = useNavigate()
+  const [templates, setTemplates] = useState([])
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

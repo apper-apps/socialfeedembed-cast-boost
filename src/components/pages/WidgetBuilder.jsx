@@ -1,157 +1,218 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { toast } from 'react-toastify'
-import Button from '@/components/atoms/Button'
-import Input from '@/components/atoms/Input'
-import Select from '@/components/atoms/Select'
-import Card from '@/components/atoms/Card'
-import Loading from '@/components/ui/Loading'
-import Error from '@/components/ui/Error'
-import PlatformSelector from '@/components/molecules/PlatformSelector'
-import FilterInput from '@/components/molecules/FilterInput'
-import WidgetPreview from '@/components/molecules/WidgetPreview'
-import EmbedCodeModal from '@/components/molecules/EmbedCodeModal'
-import ThemeSelector from '@/components/molecules/ThemeSelector'
-import { widgetService } from '@/services/api/widgetService'
-import { postService } from '@/services/api/postService'
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { motion } from "framer-motion";
+import { toast } from "react-toastify";
+import templateService from "@/services/api/templateService";
+import ApperIcon from "@/components/ApperIcon";
+import Settings from "@/components/pages/Settings";
+import Layout from "@/components/organisms/Layout";
+import Card from "@/components/atoms/Card";
+import Select from "@/components/atoms/Select";
+import Input from "@/components/atoms/Input";
+import Button from "@/components/atoms/Button";
+import Checkbox from "@/components/atoms/Checkbox";
+import WidgetPreview from "@/components/molecules/WidgetPreview";
+import FilterInput from "@/components/molecules/FilterInput";
+import EmbedCodeModal from "@/components/molecules/EmbedCodeModal";
+import PlatformSelector from "@/components/molecules/PlatformSelector";
+import ThemeSelector from "@/components/molecules/ThemeSelector";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
+import postService from "@/services/api/postService";
+import { widgetService } from "@/services/api/widgetService";
 
 const WidgetBuilder = () => {
-  const navigate = useNavigate()
-  const { id } = useParams()
-  const isEditing = Boolean(id)
-
-  const [loading, setLoading] = useState(isEditing)
-  const [error, setError] = useState('')
-  const [saving, setSaving] = useState(false)
-  const [posts, setPosts] = useState([])
-  const [showEmbedModal, setShowEmbedModal] = useState(false)
-
-const [widget, setWidget] = useState({
-    name: '',
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const isEditing = Boolean(id);
+  const templateId = searchParams.get('template');
+  
+  const [widget, setWidget] = useState({
+    name: "",
     platforms: [],
     filters: [],
     layout: 'grid',
     theme: 'minimal',
     maxPosts: 10,
     sortBy: 'newest'
-  })
+  });
+  const [posts, setPosts] = useState([]);
+  const [showEmbedModal, setShowEmbedModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
 
   const layoutOptions = [
     { value: 'grid', label: 'Grid Layout' },
     { value: 'list', label: 'List Layout' },
     { value: 'masonry', label: 'Masonry Layout' }
-  ]
+  ];
 
-const themeOptions = [
+  const themeOptions = [
     { value: 'minimal', label: 'Minimal', description: 'Clean, minimal design with lots of whitespace' },
     { value: 'card', label: 'Card', description: 'Modern card-based layout with subtle shadows' },
     { value: 'compact', label: 'Compact', description: 'Dense layout perfect for sidebars' },
     { value: 'magazine', label: 'Magazine', description: 'Rich editorial style with enhanced typography' }
-  ]
+  ];
 
-const maxPostsOptions = [
+  const maxPostsOptions = [
     { value: 5, label: '5 Posts' },
     { value: 10, label: '10 Posts' },
+    { value: 15, label: '15 Posts' },
     { value: 20, label: '20 Posts' },
     { value: 30, label: '30 Posts' },
     { value: 50, label: '50 Posts' }
-  ]
+  ];
 
   const sortOptions = [
     { value: 'newest', label: 'Newest First' },
     { value: 'oldest', label: 'Oldest First' },
     { value: 'popular', label: 'Most Popular' },
     { value: 'engagement', label: 'Most Engagement' }
-  ]
+  ];
+
   useEffect(() => {
     if (isEditing) {
-      loadWidget()
+      loadWidget();
+    } else if (templateId) {
+      loadTemplate();
+    } else {
+      // Load from URL parameters if template data is provided
+      loadFromUrlParams();
     }
-    loadPosts()
-  }, [isEditing])
+    loadPosts();
+  }, [id, templateId]);
 
-  useEffect(() => {
-    if (widget.platforms.length > 0) {
-      loadPosts()
-    }
-  }, [widget.platforms, widget.filters])
-
-  const loadWidget = async () => {
+const loadWidget = async () => {
     try {
-      setLoading(true)
-      setError('')
-      const data = await widgetService.getById(parseInt(id))
-      setWidget(data)
-    } catch (err) {
-      setError('Failed to load widget. Please try again.')
-      console.error('Error loading widget:', err)
+      setLoading(true);
+      setError('');
+      const widgetData = await widgetService.getById(id);
+      setWidget(widgetData);
+      toast.success('Widget loaded successfully');
+    } catch (error) {
+      setError('Failed to load widget. Please try again.');
+      console.error('Error loading widget:', error);
+      toast.error('Failed to load widget');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  const loadPosts = async () => {
+  const loadTemplate = async () => {
     try {
-      const data = await postService.getAll()
+      setLoading(true);
+      const templateData = await templateService.getById(templateId);
+      setWidget({
+        name: templateData.name,
+        platforms: templateData.platforms || [],
+        filters: templateData.filters || [],
+        layout: templateData.layout || "grid",
+        theme: templateData.theme || "minimal",
+        maxPosts: templateData.maxPosts || 10,
+      });
+      toast.success(`Template "${templateData.name}" loaded successfully`);
+    } catch (error) {
+      toast.error("Failed to load template");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadFromUrlParams = () => {
+    try {
+      const name = searchParams.get('name');
+      const platforms = searchParams.get('platforms');
+      const filters = searchParams.get('filters');
+      const layout = searchParams.get('layout');
+      const theme = searchParams.get('theme');
+      const maxPosts = searchParams.get('maxPosts');
+
+      if (name || platforms || filters) {
+        setWidget(prev => ({
+          ...prev,
+          ...(name && { name }),
+          ...(platforms && { platforms: JSON.parse(platforms) }),
+          ...(filters && { filters: JSON.parse(filters) }),
+          ...(layout && { layout }),
+          ...(theme && { theme }),
+          ...(maxPosts && { maxPosts: parseInt(maxPosts) })
+        }));
+      }
+    } catch (error) {
+      console.error('Error loading from URL parameters:', error);
+    }
+  };
+
+const loadPosts = async () => {
+    try {
+      const data = await postService.getAll();
       
       // Filter posts based on selected platforms and filters
-      let filteredPosts = data
+      let filteredPosts = data;
       
       if (widget.platforms.length > 0) {
         filteredPosts = filteredPosts.filter(post => 
           widget.platforms.includes(post.platform)
-        )
+        );
       }
-if (widget.filters.length > 0) {
-        const includeFilters = widget.filters.filter(filter => !filter.mode || filter.mode === 'include')
-        const excludeFilters = widget.filters.filter(filter => filter.mode === 'exclude')
+
+      if (widget.filters.length > 0) {
+        const includeFilters = widget.filters.filter(filter => !filter.mode || filter.mode === 'include');
+        const excludeFilters = widget.filters.filter(filter => filter.mode === 'exclude');
         
         // Apply include filters first
         if (includeFilters.length > 0) {
           filteredPosts = filteredPosts.filter(post => {
             return includeFilters.some(filter => {
-              const matchesPlatform = filter.platform === 'all' || filter.platform === post.platform
+              const matchesPlatform = filter.platform === 'all' || filter.platform === post.platform;
               
               switch (filter.type) {
                 case 'hashtag':
-                  return matchesPlatform && post.content.toLowerCase().includes(`#${filter.value.toLowerCase()}`)
+                  return matchesPlatform && post.content.toLowerCase().includes(`#${filter.value.toLowerCase()}`);
                 case 'username':
-                  return matchesPlatform && post.author.toLowerCase().includes(filter.value.toLowerCase())
+                  return matchesPlatform && post.author.toLowerCase().includes(filter.value.toLowerCase());
                 case 'keyword':
-                  return matchesPlatform && post.content.toLowerCase().includes(filter.value.toLowerCase())
+                  return matchesPlatform && post.content.toLowerCase().includes(filter.value.toLowerCase());
                 default:
-                  return false
+                  return false;
               }
-            })
-          })
+            });
+          });
         }
         
         // Apply exclude filters
         if (excludeFilters.length > 0) {
           filteredPosts = filteredPosts.filter(post => {
             return !excludeFilters.some(filter => {
-              const matchesPlatform = filter.platform === 'all' || filter.platform === post.platform
+              const matchesPlatform = filter.platform === 'all' || filter.platform === post.platform;
               
               switch (filter.type) {
                 case 'hashtag':
-                  return matchesPlatform && post.content.toLowerCase().includes(`#${filter.value.toLowerCase()}`)
+                  return matchesPlatform && post.content.toLowerCase().includes(`#${filter.value.toLowerCase()}`);
                 case 'username':
-                  return matchesPlatform && post.author.toLowerCase().includes(filter.value.toLowerCase())
+                  return matchesPlatform && post.author.toLowerCase().includes(filter.value.toLowerCase());
                 case 'keyword':
-                  return matchesPlatform && post.content.toLowerCase().includes(filter.value.toLowerCase())
+                  return matchesPlatform && post.content.toLowerCase().includes(filter.value.toLowerCase());
                 default:
-                  return false
+                  return false;
               }
-            })
-          })
+            });
+          });
         }
       }
 
-      setPosts(filteredPosts)
+      setPosts(filteredPosts);
     } catch (err) {
-      console.error('Error loading posts:', err)
+      console.error('Error loading posts:', err);
     }
-  }
+  };
+useEffect(() => {
+    if (widget.platforms.length > 0) {
+      loadPosts();
+    }
+  }, [widget.platforms, widget.filters]);
 
   const handleSaveWidget = async () => {
     if (!widget.name.trim()) {

@@ -6,13 +6,13 @@ import ApperIcon from '@/components/ApperIcon'
 const Sidebar = ({ isOpen, onClose }) => {
   const location = useLocation()
 
-  const navigation = [
+const navigation = [
     { name: 'Widgets', href: '/widgets', icon: 'LayoutGrid' },
     { name: 'Create Widget', href: '/create-widget', icon: 'Plus' },
+    { name: 'Templates', href: '/templates', icon: 'Layers' },
     { name: 'Analytics', href: '/analytics', icon: 'BarChart3' },
     { name: 'Settings', href: '/settings', icon: 'Settings' }
   ]
-
   const sidebarVariants = {
     open: { x: 0 },
     closed: { x: '-100%' }

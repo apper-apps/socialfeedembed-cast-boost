@@ -4,19 +4,20 @@ import { ToastContainer } from 'react-toastify'
 import Layout from '@/components/organisms/Layout'
 import WidgetDashboard from '@/components/pages/WidgetDashboard'
 import WidgetBuilder from '@/components/pages/WidgetBuilder'
+import WidgetTemplates from '@/components/pages/WidgetTemplates'
 import Analytics from '@/components/pages/Analytics'
 import Settings from '@/components/pages/Settings'
-
 function App() {
   return (
     <Router>
       <div className="min-h-screen bg-white">
         <Layout>
           <Routes>
-            <Route path="/" element={<WidgetDashboard />} />
+<Route path="/" element={<WidgetDashboard />} />
             <Route path="/widgets" element={<WidgetDashboard />} />
             <Route path="/create-widget" element={<WidgetBuilder />} />
             <Route path="/edit-widget/:id" element={<WidgetBuilder />} />
+            <Route path="/templates" element={<WidgetTemplates />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/settings" element={<Settings />} />
           </Routes>

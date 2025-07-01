@@ -1,0 +1,242 @@
+[
+  {
+    "Id": 1,
+    "name": "Company News Feed",
+    "description": "Display latest company updates and announcements from multiple social platforms",
+    "category": "business",
+    "platforms": ["twitter", "linkedin", "facebook"],
+    "filters": [
+      { "id": "1", "type": "hashtag", "value": "company", "platform": "all", "mode": "include" },
+      { "id": "2", "type": "username", "value": "company", "platform": "twitter", "mode": "include" },
+      { "id": "3", "type": "keyword", "value": "announcement", "platform": "all", "mode": "include" }
+    ],
+    "layout": "list",
+    "theme": "minimal",
+    "maxPosts": 15,
+    "featured": true,
+    "useCase": "Corporate communications and internal updates",
+    "embedCode": "<iframe src=\"https://socialfeedembed.com/embed?template=1\" width=\"100%\" height=\"500px\"></iframe>",
+    "createdAt": "2023-12-01T10:00:00Z",
+    "updatedAt": "2023-12-15T14:30:00Z"
+  },
+  {
+    "Id": 2,
+    "name": "Event Live Feed",
+    "description": "Real-time social media coverage for events, conferences, and live happenings",
+    "category": "marketing",
+    "platforms": ["twitter", "instagram", "facebook"],
+    "filters": [
+      { "id": "4", "type": "hashtag", "value": "event2024", "platform": "all", "mode": "include" },
+      { "id": "5", "type": "hashtag", "value": "conference", "platform": "all", "mode": "include" },
+      { "id": "6", "type": "keyword", "value": "live", "platform": "twitter", "mode": "include" }
+    ],
+    "layout": "masonry",
+    "theme": "card",
+    "maxPosts": 20,
+    "featured": true,
+    "useCase": "Event marketing and live engagement",
+    "embedCode": "<iframe src=\"https://socialfeedembed.com/embed?template=2\" width=\"100%\" height=\"600px\"></iframe>",
+    "createdAt": "2023-11-20T09:15:00Z",
+    "updatedAt": "2023-12-10T11:45:00Z"
+  },
+  {
+    "Id": 3,
+    "name": "Product Showcase",
+    "description": "Highlight product features, launches, and customer reactions",
+    "category": "ecommerce",
+    "platforms": ["instagram", "facebook", "youtube"],
+    "filters": [
+      { "id": "7", "type": "hashtag", "value": "product", "platform": "all", "mode": "include" },
+      { "id": "8", "type": "hashtag", "value": "launch", "platform": "instagram", "mode": "include" },
+      { "id": "9", "type": "keyword", "value": "review", "platform": "all", "mode": "include" }
+    ],
+    "layout": "grid",
+    "theme": "magazine",
+    "maxPosts": 12,
+    "featured": false,
+    "useCase": "Product marketing and social proof",
+    "embedCode": "<iframe src=\"https://socialfeedembed.com/embed?template=3\" width=\"100%\" height=\"550px\"></iframe>",
+    "createdAt": "2023-12-05T16:20:00Z",
+    "updatedAt": "2023-12-12T08:10:00Z"
+  },
+  {
+    "Id": 4,
+    "name": "Customer Stories",
+    "description": "Showcase customer testimonials, reviews, and success stories",
+    "category": "business",
+    "platforms": ["twitter", "linkedin", "facebook"],
+    "filters": [
+      { "id": "10", "type": "hashtag", "value": "testimonial", "platform": "all", "mode": "include" },
+      { "id": "11", "type": "keyword", "value": "customer", "platform": "all", "mode": "include" },
+      { "id": "12", "type": "keyword", "value": "success", "platform": "linkedin", "mode": "include" }
+    ],
+    "layout": "grid",
+    "theme": "minimal",
+    "maxPosts": 16,
+    "featured": true,
+    "useCase": "Social proof and customer advocacy",
+    "embedCode": "<iframe src=\"https://socialfeedembed.com/embed?template=4\" width=\"100%\" height=\"500px\"></iframe>",
+    "createdAt": "2023-11-28T13:00:00Z",
+    "updatedAt": "2023-12-08T15:30:00Z"
+  },
+  {
+    "Id": 5,
+    "name": "Brand Monitoring",
+    "description": "Track brand mentions and conversations across social platforms",
+    "category": "marketing",
+    "platforms": ["twitter", "instagram", "linkedin"],
+    "filters": [
+      { "id": "13", "type": "keyword", "value": "brandname", "platform": "all", "mode": "include" },
+      { "id": "14", "type": "hashtag", "value": "brand", "platform": "all", "mode": "include" },
+      { "id": "15", "type": "keyword", "value": "mention", "platform": "twitter", "mode": "include" }
+    ],
+    "layout": "list",
+    "theme": "compact",
+    "maxPosts": 25,
+    "featured": false,
+    "useCase": "Brand reputation and sentiment monitoring",
+    "embedCode": "<iframe src=\"https://socialfeedembed.com/embed?template=5\" width=\"100%\" height=\"400px\"></iframe>",
+    "createdAt": "2023-12-03T11:30:00Z",
+    "updatedAt": "2023-12-14T09:45:00Z"
+  },
+  {
+    "Id": 6,
+    "name": "Community Hub",
+    "description": "Engage your community with user-generated content and discussions",
+    "category": "community",
+    "platforms": ["twitter", "instagram", "facebook"],
+    "filters": [
+      { "id": "16", "type": "hashtag", "value": "community", "platform": "all", "mode": "include" },
+      { "id": "17", "type": "keyword", "value": "discussion", "platform": "all", "mode": "include" },
+      { "id": "18", "type": "hashtag", "value": "together", "platform": "instagram", "mode": "include" }
+    ],
+    "layout": "masonry",
+    "theme": "card",
+    "maxPosts": 18,
+    "featured": true,
+    "useCase": "Community building and engagement",
+    "embedCode": "<iframe src=\"https://socialfeedembed.com/embed?template=6\" width=\"100%\" height=\"550px\"></iframe>",
+    "createdAt": "2023-12-01T14:20:00Z",
+    "updatedAt": "2023-12-13T16:10:00Z"
+  },
+  {
+    "Id": 7,
+    "name": "Campaign Tracker",
+    "description": "Monitor marketing campaign performance and engagement",
+    "category": "marketing",
+    "platforms": ["twitter", "instagram", "facebook", "linkedin"],
+    "filters": [
+      { "id": "19", "type": "hashtag", "value": "campaign2024", "platform": "all", "mode": "include" },
+      { "id": "20", "type": "keyword", "value": "marketing", "platform": "all", "mode": "include" },
+      { "id": "21", "type": "hashtag", "value": "promo", "platform": "instagram", "mode": "include" }
+    ],
+    "layout": "grid",
+    "theme": "magazine",
+    "maxPosts": 20,
+    "featured": false,
+    "useCase": "Campaign monitoring and ROI tracking",
+    "embedCode": "<iframe src=\"https://socialfeedembed.com/embed?template=7\" width=\"100%\" height=\"600px\"></iframe>",
+    "createdAt": "2023-11-25T08:45:00Z",
+    "updatedAt": "2023-12-11T12:20:00Z"
+  },
+  {
+    "Id": 8,
+    "name": "Team Spotlight",
+    "description": "Showcase team achievements, culture, and behind-the-scenes content",
+    "category": "business",
+    "platforms": ["linkedin", "instagram", "twitter"],
+    "filters": [
+      { "id": "22", "type": "hashtag", "value": "team", "platform": "all", "mode": "include" },
+      { "id": "23", "type": "keyword", "value": "employee", "platform": "linkedin", "mode": "include" },
+      { "id": "24", "type": "hashtag", "value": "culture", "platform": "all", "mode": "include" }
+    ],
+    "layout": "grid",
+    "theme": "minimal",
+    "maxPosts": 14,
+    "featured": false,
+    "useCase": "Employee advocacy and company culture",
+    "embedCode": "<iframe src=\"https://socialfeedembed.com/embed?template=8\" width=\"100%\" height=\"500px\"></iframe>",
+    "createdAt": "2023-12-02T10:30:00Z",
+    "updatedAt": "2023-12-09T14:15:00Z"
+  },
+  {
+    "Id": 9,
+    "name": "Sales Showcase",
+    "description": "Highlight sales achievements, promotions, and special offers",
+    "category": "ecommerce",
+    "platforms": ["instagram", "facebook", "twitter"],
+    "filters": [
+      { "id": "25", "type": "hashtag", "value": "sale", "platform": "all", "mode": "include" },
+      { "id": "26", "type": "keyword", "value": "discount", "platform": "all", "mode": "include" },
+      { "id": "27", "type": "hashtag", "value": "offer", "platform": "instagram", "mode": "include" }
+    ],
+    "layout": "masonry",
+    "theme": "card",
+    "maxPosts": 16,
+    "featured": true,
+    "useCase": "Sales promotion and conversion optimization",
+    "embedCode": "<iframe src=\"https://socialfeedembed.com/embed?template=9\" width=\"100%\" height=\"550px\"></iframe>",
+    "createdAt": "2023-11-30T15:45:00Z",
+    "updatedAt": "2023-12-12T09:30:00Z"
+  },
+  {
+    "Id": 10,
+    "name": "Industry News",
+    "description": "Curate relevant industry news and trending topics",
+    "category": "business",
+    "platforms": ["twitter", "linkedin"],
+    "filters": [
+      { "id": "28", "type": "keyword", "value": "industry", "platform": "all", "mode": "include" },
+      { "id": "29", "type": "hashtag", "value": "news", "platform": "twitter", "mode": "include" },
+      { "id": "30", "type": "keyword", "value": "trending", "platform": "linkedin", "mode": "include" }
+    ],
+    "layout": "list",
+    "theme": "compact",
+    "maxPosts": 30,
+    "featured": false,
+    "useCase": "Industry thought leadership and news curation",
+    "embedCode": "<iframe src=\"https://socialfeedembed.com/embed?template=10\" width=\"100%\" height=\"400px\"></iframe>",
+    "createdAt": "2023-12-04T12:10:00Z",
+    "updatedAt": "2023-12-15T10:45:00Z"
+  },
+  {
+    "Id": 11,
+    "name": "User Reviews",
+    "description": "Display customer reviews and feedback from social platforms",
+    "category": "ecommerce",
+    "platforms": ["twitter", "facebook", "instagram"],
+    "filters": [
+      { "id": "31", "type": "keyword", "value": "review", "platform": "all", "mode": "include" },
+      { "id": "32", "type": "hashtag", "value": "feedback", "platform": "all", "mode": "include" },
+      { "id": "33", "type": "keyword", "value": "rating", "platform": "twitter", "mode": "include" }
+    ],
+    "layout": "grid",
+    "theme": "minimal",
+    "maxPosts": 12,
+    "featured": false,
+    "useCase": "Social proof and review aggregation",
+    "embedCode": "<iframe src=\"https://socialfeedembed.com/embed?template=11\" width=\"100%\" height=\"500px\"></iframe>",
+    "createdAt": "2023-11-27T16:30:00Z",
+    "updatedAt": "2023-12-07T13:20:00Z"
+  },
+  {
+    "Id": 12,
+    "name": "Support Community",
+    "description": "Create a support community with Q&A and helpful discussions",
+    "category": "community",
+    "platforms": ["twitter", "linkedin", "facebook"],
+    "filters": [
+      { "id": "34", "type": "keyword", "value": "help", "platform": "all", "mode": "include" },
+      { "id": "35", "type": "hashtag", "value": "support", "platform": "all", "mode": "include" },
+      { "id": "36", "type": "keyword", "value": "question", "platform": "twitter", "mode": "include" }
+    ],
+    "layout": "list",
+    "theme": "card",
+    "maxPosts": 22,
+    "featured": false,
+    "useCase": "Customer support and community assistance",
+    "embedCode": "<iframe src=\"https://socialfeedembed.com/embed?template=12\" width=\"100%\" height=\"500px\"></iframe>",
+    "createdAt": "2023-12-06T11:15:00Z",
+    "updatedAt": "2023-12-14T15:40:00Z"
+  }
+]

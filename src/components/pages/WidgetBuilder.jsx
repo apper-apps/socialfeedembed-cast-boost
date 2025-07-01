@@ -11,6 +11,7 @@ import PlatformSelector from '@/components/molecules/PlatformSelector'
 import FilterInput from '@/components/molecules/FilterInput'
 import WidgetPreview from '@/components/molecules/WidgetPreview'
 import EmbedCodeModal from '@/components/molecules/EmbedCodeModal'
+import ThemeSelector from '@/components/molecules/ThemeSelector'
 import { widgetService } from '@/services/api/widgetService'
 import { postService } from '@/services/api/postService'
 
@@ -25,12 +26,12 @@ const WidgetBuilder = () => {
   const [posts, setPosts] = useState([])
   const [showEmbedModal, setShowEmbedModal] = useState(false)
 
-  const [widget, setWidget] = useState({
+const [widget, setWidget] = useState({
     name: '',
     platforms: [],
     filters: [],
     layout: 'grid',
-    theme: 'light',
+    theme: 'minimal',
     maxPosts: 10
   })
 
@@ -40,9 +41,11 @@ const WidgetBuilder = () => {
     { value: 'masonry', label: 'Masonry Layout' }
   ]
 
-  const themeOptions = [
-    { value: 'light', label: 'Light Theme' },
-    { value: 'dark', label: 'Dark Theme' }
+const themeOptions = [
+    { value: 'minimal', label: 'Minimal', description: 'Clean, minimal design with lots of whitespace' },
+    { value: 'card', label: 'Card', description: 'Modern card-based layout with subtle shadows' },
+    { value: 'compact', label: 'Compact', description: 'Dense layout perfect for sidebars' },
+    { value: 'magazine', label: 'Magazine', description: 'Rich editorial style with enhanced typography' }
   ]
 
   const maxPostsOptions = [
@@ -228,11 +231,12 @@ const WidgetBuilder = () => {
                   onChange={(e) => setWidget(prev => ({ ...prev, layout: e.target.value }))}
                   options={layoutOptions}
                 />
-                <Select
+<ThemeSelector
                   label="Theme"
                   value={widget.theme}
-                  onChange={(e) => setWidget(prev => ({ ...prev, theme: e.target.value }))}
+                  onChange={(theme) => setWidget(prev => ({ ...prev, theme }))}
                   options={themeOptions}
+                  posts={posts.slice(0, 3)}
                 />
                 <Select
                   label="Max Posts"

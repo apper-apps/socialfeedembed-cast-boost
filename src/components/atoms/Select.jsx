@@ -7,6 +7,9 @@ const Select = ({
   error, 
   className = '', 
   required = false,
+  renderOption = null,
+  isOpen = false,
+  onToggle = null,
   ...props 
 }) => {
   const selectClasses = `
@@ -24,21 +27,47 @@ const Select = ({
           {required && <span className="text-error ml-1">*</span>}
         </label>
       )}
-      <div className="relative">
-        <select
-          className={selectClasses}
-          required={required}
-          {...props}
-        >
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-        <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-          <ApperIcon name="ChevronDown" className="text-gray-400" size={18} />
-        </div>
+<div className="relative">
+        {renderOption ? (
+          <div className="relative">
+            <button
+              type="button"
+              onClick={onToggle}
+              className={selectClasses}
+            >
+              <div className="flex items-center justify-between">
+                <span>{options.find(opt => opt.value === props.value)?.label || 'Select...'}</span>
+                <ApperIcon 
+                  name="ChevronDown" 
+                  className={`text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} 
+                  size={18} 
+                />
+              </div>
+            </button>
+            {isOpen && renderOption && (
+              <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-white border-2 border-gray-200 rounded-lg shadow-luxury max-h-80 overflow-y-auto">
+                {options.map((option) => renderOption(option, props.value === option.value))}
+              </div>
+            )}
+          </div>
+        ) : (
+          <>
+            <select
+              className={selectClasses}
+              required={required}
+              {...props}
+            >
+              {options.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+              <ApperIcon name="ChevronDown" className="text-gray-400" size={18} />
+            </div>
+          </>
+        )}
       </div>
       {error && (
         <p className="mt-1 text-sm text-error flex items-center">

@@ -4,7 +4,7 @@ import { formatDistanceToNow } from 'date-fns'
 import Badge from '@/components/atoms/Badge'
 import ApperIcon from '@/components/ApperIcon'
 
-const PostCard = ({ post, layout = 'grid', className = '' }) => {
+const PostCard = ({ post, layout = 'grid', theme = 'minimal', className = '' }) => {
   const platformColors = {
     twitter: 'twitter',
     instagram: 'instagram',
@@ -23,76 +23,111 @@ const PostCard = ({ post, layout = 'grid', className = '' }) => {
     linkedin: 'Linkedin'
   }
 
+  const getCardClasses = () => {
+    const themeStyles = {
+      minimal: 'bg-white border-0 shadow-none hover:shadow-md',
+      card: 'bg-white border border-gray-200 shadow-premium hover:shadow-luxury',
+      compact: 'bg-white border border-gray-100 shadow-sm hover:shadow-md',
+      magazine: 'bg-white border border-gray-300 shadow-luxury hover:shadow-xl'
+    }
+    return themeStyles[theme] || themeStyles.minimal
+  }
+
+  const getPadding = () => {
+    const paddingStyles = {
+      minimal: 'p-6',
+      card: 'p-4',
+      compact: 'p-2',
+      magazine: 'p-5'
+    }
+    return paddingStyles[theme] || paddingStyles.minimal
+  }
   const isGridLayout = layout === 'grid'
   const isListLayout = layout === 'list'
 
-  return (
+return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -2 }}
+      whileHover={{ y: theme === 'compact' ? 0 : -2 }}
       className={`
-        bg-white rounded-xl border border-gray-200 shadow-premium hover:shadow-luxury
-        transition-all duration-200 overflow-hidden
+        rounded-xl transition-all duration-200 overflow-hidden
+        ${getCardClasses()}
         ${isListLayout ? 'flex' : ''}
+        ${theme === 'minimal' ? 'rounded-none border-b border-gray-100 last:border-b-0' : ''}
         ${className}
       `}
     >
       {/* Media */}
       {post.media && post.media.length > 0 && (
-        <div className={`${isListLayout ? 'w-32 flex-shrink-0' : 'aspect-video'} bg-gray-100 relative`}>
+        <div className={`${isListLayout ? (theme === 'compact' ? 'w-16 flex-shrink-0' : 'w-32 flex-shrink-0') : 'aspect-video'} bg-gray-100 relative`}>
           <img
             src={post.media[0]}
             alt=""
             className="w-full h-full object-cover"
           />
-          <div className="absolute top-2 right-2">
-            <Badge variant={platformColors[post.platform]} size="sm">
-              <ApperIcon name={platformIcons[post.platform]} size={12} className="mr-1" />
-              {post.platform}
+          <div className={`absolute ${theme === 'compact' ? 'top-1 right-1' : 'top-2 right-2'}`}>
+            <Badge variant={platformColors[post.platform]} size={theme === 'compact' ? 'xs' : 'sm'}>
+              <ApperIcon name={platformIcons[post.platform]} size={theme === 'compact' ? 10 : 12} className="mr-1" />
+              {theme === 'compact' ? '' : post.platform}
             </Badge>
           </div>
         </div>
       )}
 
       {/* Content */}
-      <div className="p-4 flex-1">
+      <div className={`${getPadding()} flex-1`}>
         {/* Header */}
-        <div className="flex items-center space-x-3 mb-3">
+        <div className={`flex items-center mb-3 ${theme === 'compact' ? 'space-x-2 mb-1' : 'space-x-3'}`}>
           <img
             src={post.avatar}
             alt={post.author}
-            className="w-8 h-8 rounded-full bg-gray-200"
+            className={`rounded-full bg-gray-200 ${theme === 'compact' ? 'w-6 h-6' : 'w-8 h-8'}`}
           />
           <div className="flex-1 min-w-0">
-            <h4 className="font-medium text-gray-900 truncate">{post.author}</h4>
-            <p className="text-xs text-gray-500">
+            <h4 className={`font-medium text-gray-900 truncate ${
+              theme === 'compact' ? 'text-sm' : 
+              theme === 'magazine' ? 'text-lg font-bold' : ''
+            }`}>
+              {post.author}
+            </h4>
+            <p className={`text-gray-500 ${
+              theme === 'compact' ? 'text-xs' : 
+              theme === 'magazine' ? 'text-sm font-medium' : 'text-xs'
+            }`}>
               {formatDistanceToNow(new Date(post.timestamp), { addSuffix: true })}
             </p>
           </div>
           {(!post.media || post.media.length === 0) && (
-            <Badge variant={platformColors[post.platform]} size="sm">
-              <ApperIcon name={platformIcons[post.platform]} size={12} className="mr-1" />
-              {post.platform}
+            <Badge variant={platformColors[post.platform]} size={theme === 'compact' ? 'xs' : 'sm'}>
+              <ApperIcon name={platformIcons[post.platform]} size={theme === 'compact' ? 10 : 12} className="mr-1" />
+              {theme === 'compact' ? '' : post.platform}
             </Badge>
           )}
         </div>
 
         {/* Content */}
-        <div className="mb-3">
-          <p className={`text-gray-700 ${isGridLayout ? 'line-clamp-3' : 'line-clamp-2'}`}>
+        <div className={theme === 'compact' ? 'mb-1' : 'mb-3'}>
+          <p className={`text-gray-700 ${
+            theme === 'compact' ? 'line-clamp-1 text-sm' :
+            theme === 'magazine' ? 'line-clamp-4 text-base leading-relaxed' :
+            isGridLayout ? 'line-clamp-3' : 'line-clamp-2'
+          }`}>
             {post.content}
           </p>
         </div>
 
         {/* Engagement */}
-        <div className="flex items-center space-x-4 text-sm text-gray-500">
+        <div className={`flex items-center text-gray-500 ${
+          theme === 'compact' ? 'space-x-2 text-xs' : 
+          theme === 'magazine' ? 'space-x-6 text-base' : 'space-x-4 text-sm'
+        }`}>
           <div className="flex items-center space-x-1">
-            <ApperIcon name="Heart" size={14} />
+            <ApperIcon name="Heart" size={theme === 'compact' ? 12 : theme === 'magazine' ? 16 : 14} />
             <span>{post.likes.toLocaleString()}</span>
           </div>
           <div className="flex items-center space-x-1">
-            <ApperIcon name="MessageCircle" size={14} />
+            <ApperIcon name="MessageCircle" size={theme === 'compact' ? 12 : theme === 'magazine' ? 16 : 14} />
             <span>{post.comments.toLocaleString()}</span>
           </div>
         </div>

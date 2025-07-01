@@ -3,7 +3,9 @@ import { motion } from 'framer-motion'
 import PostCard from './PostCard'
 import ApperIcon from '@/components/ApperIcon'
 
-const WidgetPreview = ({ widget, posts = [], className = '' }) => {
+const WidgetPreview = ({ widget, posts = [], className = '', theme = null }) => {
+  const activeTheme = theme || widget?.theme || 'minimal'
+  
   if (!widget) {
     return (
       <div className={`bg-surface rounded-xl p-8 text-center ${className}`}>
@@ -14,36 +16,94 @@ const WidgetPreview = ({ widget, posts = [], className = '' }) => {
     )
   }
 
-  const getLayoutClasses = () => {
-    switch (widget.layout) {
-      case 'grid':
-        return 'grid grid-cols-1 md:grid-cols-2 gap-4'
-      case 'list':
-        return 'space-y-4'
-      case 'masonry':
-        return 'columns-1 md:columns-2 gap-4 space-y-4'
-      default:
-        return 'grid grid-cols-1 md:grid-cols-2 gap-4'
+const getLayoutClasses = () => {
+    const baseLayout = (() => {
+      switch (widget.layout) {
+        case 'grid':
+          return 'grid grid-cols-1 md:grid-cols-2 gap-4'
+        case 'list':
+          return 'space-y-4'
+        case 'masonry':
+          return 'columns-1 md:columns-2 gap-4 space-y-4'
+        default:
+          return 'grid grid-cols-1 md:grid-cols-2 gap-4'
+      }
+    })()
+
+    // Theme-specific adjustments
+    const themeAdjustments = {
+      minimal: 'gap-6',
+      card: 'gap-4',
+      compact: 'gap-2',
+      magazine: 'gap-5'
     }
+
+    return `${baseLayout} ${themeAdjustments[activeTheme] || ''}`
+  }
+
+  const getContainerClasses = () => {
+    const themeStyles = {
+      minimal: 'bg-white border-0 shadow-none',
+      card: 'bg-white border border-gray-200 shadow-premium',
+      compact: 'bg-gray-50 border border-gray-100 shadow-sm',
+      magazine: 'bg-gradient-to-br from-white to-gray-50 border border-gray-200 shadow-luxury'
+    }
+    return themeStyles[activeTheme] || themeStyles.minimal
+  }
+
+  const getHeaderClasses = () => {
+    const themeStyles = {
+      minimal: 'bg-white border-b border-gray-100 p-6',
+      card: 'bg-gradient-to-r from-primary to-secondary p-4',
+      compact: 'bg-gray-100 p-2',
+      magazine: 'bg-gradient-to-r from-gray-900 to-gray-700 p-6'
+    }
+    return themeStyles[activeTheme] || themeStyles.minimal
+  }
+
+  const getContentClasses = () => {
+    const themeStyles = {
+      minimal: 'p-8',
+      card: 'p-4',
+      compact: 'p-2',
+      magazine: 'p-6'
+    }
+    return themeStyles[activeTheme] || themeStyles.minimal
   }
 
   const displayPosts = posts.slice(0, widget.maxPosts || 10)
 
-  return (
+return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`bg-white rounded-xl border border-gray-200 shadow-premium overflow-hidden ${className}`}
+      className={`rounded-xl overflow-hidden ${getContainerClasses()} ${className}`}
     >
       {/* Widget Header */}
-      <div className="bg-gradient-to-r from-primary to-secondary p-4">
+      <div className={getHeaderClasses()}>
         <div className="flex items-center space-x-3">
-          <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
-            <ApperIcon name="Rss" className="text-white" size={20} />
+          <div className={`rounded-lg ${activeTheme === 'minimal' ? 'p-2 bg-gray-100' : activeTheme === 'compact' ? 'p-1 bg-white/20' : 'p-2 bg-white/20 backdrop-blur-sm'}`}>
+            <ApperIcon 
+              name="Rss" 
+              className={activeTheme === 'minimal' ? 'text-gray-600' : activeTheme === 'compact' ? 'text-gray-700' : 'text-white'} 
+              size={activeTheme === 'compact' ? 16 : 20} 
+            />
           </div>
           <div>
-            <h3 className="text-white font-semibold">{widget.name}</h3>
-            <p className="text-white/80 text-sm">
+            <h3 className={`font-semibold ${
+              activeTheme === 'minimal' ? 'text-gray-900 text-lg' :
+              activeTheme === 'card' ? 'text-white' :
+              activeTheme === 'compact' ? 'text-gray-900 text-sm' :
+              'text-white text-xl'
+            }`}>
+              {widget.name}
+            </h3>
+            <p className={`text-sm ${
+              activeTheme === 'minimal' ? 'text-gray-600' :
+              activeTheme === 'card' ? 'text-white/80' :
+              activeTheme === 'compact' ? 'text-gray-600 text-xs' :
+              'text-white/90'
+            }`}>
               {widget.platforms?.length || 0} platforms • {displayPosts.length} posts
             </p>
           </div>
@@ -51,7 +111,7 @@ const WidgetPreview = ({ widget, posts = [], className = '' }) => {
       </div>
 
       {/* Widget Content */}
-      <div className="p-4 max-h-96 overflow-y-auto">
+      <div className={`${getContentClasses()} max-h-96 overflow-y-auto`}>
         {displayPosts.length > 0 ? (
           <div className={getLayoutClasses()}>
             {displayPosts.map((post, index) => (
@@ -59,6 +119,7 @@ const WidgetPreview = ({ widget, posts = [], className = '' }) => {
                 key={post.Id}
                 post={post}
                 layout={widget.layout}
+                theme={activeTheme}
                 className={widget.layout === 'masonry' ? 'break-inside-avoid' : ''}
               />
             ))}
@@ -75,12 +136,20 @@ const WidgetPreview = ({ widget, posts = [], className = '' }) => {
       </div>
 
       {/* Widget Footer */}
-      <div className="bg-surface p-3 border-t border-gray-200">
-        <div className="flex items-center justify-between text-sm text-gray-600">
-          <span>Powered by SocialFeedEmbed</span>
-          <span>{widget.layout} layout</span>
+      {activeTheme !== 'compact' && (
+        <div className={`border-t ${
+          activeTheme === 'minimal' ? 'bg-gray-50 border-gray-100 p-4' :
+          activeTheme === 'magazine' ? 'bg-gray-100 border-gray-200 p-4' :
+          'bg-surface border-gray-200 p-3'
+        }`}>
+          <div className={`flex items-center justify-between text-sm text-gray-600 ${
+            activeTheme === 'magazine' ? 'text-xs' : ''
+          }`}>
+            <span>Powered by SocialFeedEmbed</span>
+            <span>{widget.layout} layout</span>
+          </div>
         </div>
-      </div>
+      )}
     </motion.div>
   )
 }

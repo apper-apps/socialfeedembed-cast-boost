@@ -30,9 +30,13 @@ export default {
         'sticky': '40',
         'sticky-high': '50'
       },
-      spacing: {
+spacing: {
         'sticky-offset': '1rem',
-        'sticky-offset-lg': '2rem'
+        'sticky-offset-lg': '2rem',
+        'preview-sm': '1.5rem',
+        'preview-md': '2rem',
+        'preview-lg': '2.5rem',
+        'preview-xl': '3rem'
       }
 }
   },

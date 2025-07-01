@@ -128,14 +128,14 @@ const getLayoutClasses = () => {
     return themeStyles[activeTheme] || themeStyles.minimal
   }
 
-  const getContentClasses = () => {
+const getContentClasses = () => {
     const themeStyles = {
-      minimal: 'p-8',
-      card: 'p-4',
+      minimal: 'py-12 px-8',
+      card: 'py-8 px-4',
       compact: 'p-2',
-      magazine: 'p-6'
+      magazine: 'py-10 px-6'
     }
-return themeStyles[activeTheme] || themeStyles.minimal
+    return themeStyles[activeTheme] || themeStyles.minimal
   }
 
   const getMaxHeightClasses = () => {

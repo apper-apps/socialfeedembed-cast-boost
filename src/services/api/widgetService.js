@@ -8,11 +8,13 @@ export const widgetService = {
     return widgets.map(widget => ({ ...widget }))
   },
 
-  async getById(id) {
+async getById(id) {
     await new Promise(resolve => setTimeout(resolve, 200))
-    const widget = widgets.find(w => w.Id === id)
+    // Support both 'id' and 'Id' for backward compatibility
+    const widget = widgets.find(w => w.id === id || w.Id === id)
     if (!widget) {
-      throw new Error('Widget not found')
+      console.error(`Widget not found for ID: ${id}. Available widgets:`, widgets.map(w => ({ id: w.id || w.Id, name: w.name })))
+      throw new Error(`Widget not found: ${id}`)
     }
     return { ...widget }
   },
@@ -29,26 +31,30 @@ export const widgetService = {
     return { ...newWidget }
   },
 
-  async update(id, widgetData) {
+async update(id, widgetData) {
     await new Promise(resolve => setTimeout(resolve, 400))
-    const index = widgets.findIndex(w => w.Id === id)
+    // Support both 'id' and 'Id' for backward compatibility
+    const index = widgets.findIndex(w => w.id === id || w.Id === id)
     if (index === -1) {
-      throw new Error('Widget not found')
+      console.error(`Widget not found for update with ID: ${id}. Available widgets:`, widgets.map(w => ({ id: w.id || w.Id, name: w.name })))
+      throw new Error(`Widget not found for update: ${id}`)
     }
     widgets[index] = {
       ...widgets[index],
       ...widgetData,
-      Id: id,
+      id: id, // Standardize on lowercase 'id'
       updatedAt: new Date().toISOString()
     }
     return { ...widgets[index] }
   },
 
-  async delete(id) {
+async delete(id) {
     await new Promise(resolve => setTimeout(resolve, 300))
-    const index = widgets.findIndex(w => w.Id === id)
+    // Support both 'id' and 'Id' for backward compatibility
+    const index = widgets.findIndex(w => w.id === id || w.Id === id)
     if (index === -1) {
-      throw new Error('Widget not found')
+      console.error(`Widget not found for deletion with ID: ${id}. Available widgets:`, widgets.map(w => ({ id: w.id || w.Id, name: w.name })))
+      throw new Error(`Widget not found for deletion: ${id}`)
     }
     widgets.splice(index, 1)
     return { success: true }

@@ -41,9 +41,9 @@ const WidgetDashboard = () => {
   const handleDeleteWidget = async (widgetId) => {
     if (!window.confirm('Are you sure you want to delete this widget?')) return
 
-    try {
+try {
       await widgetService.delete(widgetId)
-      setWidgets(widgets.filter(w => w.Id !== widgetId))
+      setWidgets(widgets.filter(w => (w.id || w.Id) !== widgetId))
       toast.success('Widget deleted successfully')
     } catch (err) {
       toast.error('Failed to delete widget')
@@ -129,9 +129,9 @@ const WidgetDashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        {widgets.map((widget, index) => (
+{widgets.map((widget, index) => (
           <motion.div
-            key={widget.Id}
+            key={widget.id || widget.Id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
@@ -151,14 +151,14 @@ const WidgetDashboard = () => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    icon="Edit"
-                    onClick={() => handleEditWidget(widget.Id)}
+icon="Edit"
+                    onClick={() => handleEditWidget(widget.id || widget.Id)}
                   />
                   <Button
                     variant="ghost"
                     size="sm"
-                    icon="Trash2"
-                    onClick={() => handleDeleteWidget(widget.Id)}
+icon="Trash2"
+                    onClick={() => handleDeleteWidget(widget.id || widget.Id)}
                     className="text-error hover:text-error"
                   />
                 </div>
@@ -227,8 +227,8 @@ const WidgetDashboard = () => {
                   <Button
                     variant="secondary"
                     size="sm"
-                    icon="ExternalLink"
-                    onClick={() => handleEditWidget(widget.Id)}
+icon="ExternalLink"
+                    onClick={() => handleEditWidget(widget.id || widget.Id)}
                   >
                     Edit
                   </Button>

@@ -32,7 +32,8 @@ const [widget, setWidget] = useState({
     filters: [],
     layout: 'grid',
     theme: 'minimal',
-    maxPosts: 10
+    maxPosts: 10,
+    sortBy: 'newest'
   })
 
   const layoutOptions = [
@@ -48,7 +49,7 @@ const themeOptions = [
     { value: 'magazine', label: 'Magazine', description: 'Rich editorial style with enhanced typography' }
   ]
 
-  const maxPostsOptions = [
+const maxPostsOptions = [
     { value: 5, label: '5 Posts' },
     { value: 10, label: '10 Posts' },
     { value: 20, label: '20 Posts' },
@@ -56,6 +57,12 @@ const themeOptions = [
     { value: 50, label: '50 Posts' }
   ]
 
+  const sortOptions = [
+    { value: 'newest', label: 'Newest First' },
+    { value: 'oldest', label: 'Oldest First' },
+    { value: 'popular', label: 'Most Popular' },
+    { value: 'engagement', label: 'Most Engagement' }
+  ]
   useEffect(() => {
     if (isEditing) {
       loadWidget()
@@ -241,12 +248,19 @@ const themeOptions = [
                 required
               />
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Select
                   label="Max Posts"
                   value={widget.maxPosts}
                   onChange={(e) => setWidget(prev => ({ ...prev, maxPosts: parseInt(e.target.value) }))}
                   options={maxPostsOptions}
+                />
+                
+                <Select
+                  label="Sort By"
+                  value={widget.sortBy}
+                  onChange={(e) => setWidget(prev => ({ ...prev, sortBy: e.target.value }))}
+                  options={sortOptions}
                 />
               </div>
             </div>

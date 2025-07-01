@@ -46,7 +46,7 @@ const ThemeSelector = ({ label, value, onChange, options = [], posts = [], class
         </label>
       )}
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
         {options.map((option) => (
           <motion.div
             key={option.value}
@@ -54,8 +54,8 @@ const ThemeSelector = ({ label, value, onChange, options = [], posts = [], class
             whileTap={{ scale: 0.98 }}
             transition={{ duration: 0.2 }}
           >
-            <Card
-              className={`cursor-pointer transition-all duration-300 ${
+<Card
+              className={`cursor-pointer transition-all duration-300 h-80 w-full ${
                 value === option.value 
                   ? 'ring-2 ring-primary border-primary shadow-luxury' 
                   : 'hover:shadow-premium hover:border-gray-300'
@@ -89,8 +89,8 @@ const ThemeSelector = ({ label, value, onChange, options = [], posts = [], class
               </div>
 
               {/* Theme Preview */}
-              <div className="p-4">
-                <div className="transform scale-90 origin-center">
+<div className="p-4 flex-1 flex items-center">
+                <div className="transform scale-95 origin-center w-full">
                   <WidgetPreview
                     widget={{...mockWidget, theme: option.value}}
                     posts={mockPosts}

@@ -163,13 +163,6 @@ const Settings = () => {
             />
             
             <Select
-              label="Default Theme"
-              value={settings.general.defaultTheme}
-              onChange={(e) => handleGeneralChange('defaultTheme', e.target.value)}
-              options={themeOptions}
-            />
-            
-            <Select
               label="Default Layout"
               value={settings.general.defaultLayout}
               onChange={(e) => handleGeneralChange('defaultLayout', e.target.value)}
@@ -291,6 +284,79 @@ const Settings = () => {
               checked={settings.notifications.weeklyReports}
               onChange={(e) => handleNotificationChange('weeklyReports', e.target.checked)}
             />
+          </div>
+        </Card>
+</div>
+
+      {/* Theme Selector Section */}
+      <div className="mt-8">
+        <Card>
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="p-2 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-lg">
+              <ApperIcon name="Palette" className="text-purple-600" size={20} />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900">Theme Selection</h3>
+              <p className="text-sm text-gray-600">Choose your preferred widget theme</p>
+            </div>
+          </div>
+          
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+              {themeOptions.map((option) => (
+                <Card
+                  key={option.value}
+                  className={`cursor-pointer transition-all duration-300 h-48 ${
+                    settings.general.defaultTheme === option.value 
+                      ? 'ring-2 ring-primary border-primary shadow-luxury' 
+                      : 'hover:shadow-premium hover:border-gray-300'
+                  }`}
+                  onClick={() => handleGeneralChange('defaultTheme', option.value)}
+                  hover={true}
+                >
+                  <div className="flex flex-col h-full">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center space-x-3">
+                        <div className={`w-4 h-4 rounded-full ${
+                          option.value === 'light' ? 'bg-yellow-400' : 'bg-gray-800'
+                        }`} />
+                        <h4 className="font-semibold text-gray-900">{option.label}</h4>
+                      </div>
+                      {settings.general.defaultTheme === option.value && (
+                        <ApperIcon name="Check" className="text-primary" size={18} />
+                      )}
+                    </div>
+                    
+                    <div className="flex-1 flex items-center justify-center bg-gray-50 rounded-lg">
+                      <div className={`w-full h-24 rounded-md ${
+                        option.value === 'light' 
+                          ? 'bg-gradient-to-br from-white to-gray-100 border border-gray-200' 
+                          : 'bg-gradient-to-br from-gray-800 to-gray-900'
+                      }`}>
+                        <div className={`p-3 h-full flex flex-col justify-between ${
+                          option.value === 'light' ? 'text-gray-800' : 'text-white'
+                        }`}>
+                          <div className="flex items-center space-x-2">
+                            <div className={`w-2 h-2 rounded-full ${
+                              option.value === 'light' ? 'bg-primary' : 'bg-blue-400'
+                            }`} />
+                            <span className="text-xs font-medium">Preview</span>
+                          </div>
+                          <div className="space-y-1">
+                            <div className={`h-1.5 rounded ${
+                              option.value === 'light' ? 'bg-gray-300' : 'bg-gray-600'
+                            }`} />
+                            <div className={`h-1.5 w-3/4 rounded ${
+                              option.value === 'light' ? 'bg-gray-200' : 'bg-gray-700'
+                            }`} />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
           </div>
         </Card>
       </div>

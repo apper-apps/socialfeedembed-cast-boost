@@ -7,6 +7,7 @@ const Card = ({
   hover = false,
   padding = 'default',
   shadow = 'default',
+  height = 'auto',
   ...props 
 }) => {
   const baseClasses = "bg-white rounded-xl border border-gray-200 transition-all duration-200"
@@ -17,17 +18,25 @@ const Card = ({
     default: "p-6",
     lg: "p-8"
   }
-  
-  const shadows = {
+const shadows = {
     none: "",
     sm: "shadow-sm",
     default: "shadow-premium",
     lg: "shadow-luxury"
   }
   
+  const heights = {
+    auto: "",
+    sm: "h-32",
+    md: "h-48",
+    lg: "h-64",
+    xl: "h-80",
+    full: "h-full"
+  }
+  
   const hoverClasses = hover ? "hover:shadow-luxury hover:border-gray-300 cursor-pointer" : ""
 
-  const cardClasses = `${baseClasses} ${paddings[padding]} ${shadows[shadow]} ${hoverClasses} ${className}`
+  const cardClasses = `${baseClasses} ${paddings[padding]} ${shadows[shadow]} ${heights[height]} ${hoverClasses} ${className}`
 
   if (hover) {
     return (

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
-import templateService from "@/services/api/templateService";
 import ApperIcon from "@/components/ApperIcon";
 import Settings from "@/components/pages/Settings";
 import Layout from "@/components/organisms/Layout";
@@ -18,10 +17,10 @@ import PlatformSelector from "@/components/molecules/PlatformSelector";
 import ThemeSelector from "@/components/molecules/ThemeSelector";
 import Error from "@/components/ui/Error";
 import Loading from "@/components/ui/Loading";
-import postService from "@/services/api/postService";
+import { postService } from "@/services/api/postService";
 import { widgetService } from "@/services/api/widgetService";
-
-const WidgetBuilder = () => {
+import templateService from "@/services/api/templateService";
+export default function WidgetBuilder() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -426,5 +425,3 @@ useEffect(() => {
     </div>
   )
 }
-
-export default WidgetBuilder

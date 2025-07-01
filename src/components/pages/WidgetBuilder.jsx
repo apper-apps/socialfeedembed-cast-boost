@@ -42,10 +42,11 @@ export default function WidgetBuilder() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
-  const layoutOptions = [
+const layoutOptions = [
     { value: 'grid', label: 'Grid Layout' },
     { value: 'list', label: 'List Layout' },
-    { value: 'masonry', label: 'Masonry Layout' }
+    { value: 'masonry', label: 'Masonry Layout' },
+    { value: 'slider', label: 'Slider Layout' }
   ];
 
   const themeOptions = [
@@ -375,10 +376,11 @@ useEffect(() => {
                       <div className="flex items-center justify-between">
                         <div>
                           <h4 className="font-medium text-gray-900">{option.label}</h4>
-                          <p className="text-sm text-gray-600 mt-1">
+<p className="text-sm text-gray-600 mt-1">
                             {option.value === 'grid' && 'Organized in responsive columns'}
                             {option.value === 'list' && 'Stacked vertically for easy reading'}
                             {option.value === 'masonry' && 'Dynamic heights for visual interest'}
+                            {option.value === 'slider' && 'Horizontal scrolling carousel layout'}
                           </p>
                         </div>
                         {isSelected && (

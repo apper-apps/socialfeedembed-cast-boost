@@ -1,5 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import ApperIcon from "@/components/ApperIcon";
 import PostCard from "@/components/molecules/PostCard";
 
@@ -25,6 +30,8 @@ const getLayoutClasses = () => {
           return 'space-y-4'
         case 'masonry':
           return 'columns-1 md:columns-2 gap-4 space-y-4'
+        case 'slider':
+          return 'slider-container'
         default:
           return 'grid grid-cols-1 md:grid-cols-2 gap-4'
       }
@@ -136,17 +143,44 @@ return (
 {/* Widget Content */}
       <div className={`${getContentClasses()} ${getMaxHeightClasses()} overflow-y-auto overflow-x-hidden`}>
         {displayPosts.length > 0 ? (
-          <div className={getLayoutClasses()}>
-            {displayPosts.map((post, index) => (
-              <PostCard
-                key={post.Id}
-                post={post}
-                layout={widget.layout}
-                theme={activeTheme}
-                className={widget.layout === 'masonry' ? 'break-inside-avoid' : ''}
-              />
-            ))}
-          </div>
+          widget.layout === 'slider' ? (
+            <Swiper
+              modules={[Navigation, Pagination, Autoplay]}
+              spaceBetween={16}
+              slidesPerView={1}
+              navigation
+              pagination={{ clickable: true }}
+              autoplay={{ delay: 3000, disableOnInteraction: false }}
+              breakpoints={{
+                640: { slidesPerView: 1 },
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 2 }
+              }}
+              className="widget-swiper"
+            >
+              {displayPosts.map((post, index) => (
+                <SwiperSlide key={post.Id}>
+                  <PostCard
+                    post={post}
+                    layout={widget.layout}
+                    theme={activeTheme}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          ) : (
+            <div className={getLayoutClasses()}>
+              {displayPosts.map((post, index) => (
+                <PostCard
+                  key={post.Id}
+                  post={post}
+                  layout={widget.layout}
+                  theme={activeTheme}
+                  className={widget.layout === 'masonry' ? 'break-inside-avoid' : ''}
+                />
+              ))}
+            </div>
+          )
         ) : (
           <div className="text-center py-8">
             <ApperIcon name="Inbox" className="text-gray-400 mx-auto mb-4" size={48} />

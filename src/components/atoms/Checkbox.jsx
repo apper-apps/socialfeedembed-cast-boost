@@ -1,5 +1,5 @@
-import React from 'react'
-import ApperIcon from '@/components/ApperIcon'
+import React from "react";
+import ApperIcon from "@/components/ApperIcon";
 
 const Checkbox = ({ 
   label, 
@@ -27,10 +27,18 @@ const Checkbox = ({
               ? 'bg-gradient-to-r from-primary to-secondary border-primary' 
               : 'bg-white border-gray-300 hover:border-gray-400'
             }
-            ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
+${disabled ? 'opacity-50 cursor-not-allowed' : ''}
             flex items-center justify-center
           `}
-          onClick={!disabled ? onChange : undefined}
+          onClick={!disabled ? (e) => {
+            e.preventDefault();
+            const syntheticEvent = {
+              target: { checked: !checked },
+              preventDefault: () => {},
+              stopPropagation: () => {}
+            };
+            onChange?.(syntheticEvent);
+          } : undefined}
         >
           {checked && (
             <ApperIcon name="Check" className="text-white" size={14} />
@@ -38,13 +46,20 @@ const Checkbox = ({
         </div>
       </div>
       {label && (
-        <label 
+<label 
           className={`ml-3 text-sm text-gray-700 cursor-pointer ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-          onClick={!disabled ? onChange : undefined}
+          onClick={!disabled ? (e) => {
+            e.preventDefault();
+            const syntheticEvent = {
+              target: { checked: !checked },
+              preventDefault: () => {},
+              stopPropagation: () => {}
+            };
+            onChange?.(syntheticEvent);
+          } : undefined}
         >
           {label}
         </label>
-      )}
     </div>
   )
 }

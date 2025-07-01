@@ -160,14 +160,92 @@ const Settings = () => {
               value={settings.general.siteUrl}
               onChange={(e) => handleGeneralChange('siteUrl', e.target.value)}
               placeholder="https://example.com"
-            />
+/>
             
-            <Select
-              label="Default Layout"
-              value={settings.general.defaultLayout}
-              onChange={(e) => handleGeneralChange('defaultLayout', e.target.value)}
-              options={layoutOptions}
-            />
+            <div className="space-y-3">
+              <label className="block text-sm font-medium text-gray-700">
+                Default Layout
+              </label>
+              <Select
+                value={settings.general.defaultLayout}
+                onChange={(e) => handleGeneralChange('defaultLayout', e.target.value)}
+                options={layoutOptions}
+                renderLayoutOption={(option, isSelected) => (
+                  <div
+                    key={option.value}
+                    className={`cursor-pointer transition-all duration-300 p-4 rounded-lg border-2 ${
+                      isSelected 
+                        ? 'ring-2 ring-primary border-primary shadow-luxury bg-primary/5' 
+                        : 'border-gray-200 hover:shadow-premium hover:border-gray-300 bg-white'
+                    }`}
+                    onClick={() => handleGeneralChange('defaultLayout', option.value)}
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center space-x-2">
+                        <div className="p-1.5 bg-gray-100 rounded-md">
+                          <ApperIcon 
+                            name={option.value === 'grid' ? 'Grid3X3' : option.value === 'list' ? 'List' : 'Layers'} 
+                            className="text-gray-600" 
+                            size={16} 
+                          />
+                        </div>
+                        <h4 className="font-semibold text-gray-900">{option.label}</h4>
+                      </div>
+                      {isSelected && (
+                        <ApperIcon name="Check" className="text-primary" size={18} />
+                      )}
+                    </div>
+                    
+                    <div className="flex items-center justify-center bg-gray-50 rounded-lg p-3 h-16">
+                      {option.value === 'grid' && (
+                        <div className="w-full h-12 grid grid-cols-3 gap-1">
+                          {[...Array(6)].map((_, i) => (
+                            <div key={i} className="bg-white border border-gray-200 rounded-sm shadow-sm" />
+                          ))}
+                        </div>
+                      )}
+                      {option.value === 'list' && (
+                        <div className="w-full h-12 space-y-1">
+                          {[...Array(3)].map((_, i) => (
+                            <div key={i} className="flex items-center space-x-2 bg-white border border-gray-200 rounded-sm p-1">
+                              <div className="w-6 h-6 bg-gray-300 rounded-sm flex-shrink-0" />
+                              <div className="flex-1 space-y-0.5">
+                                <div className="h-1.5 bg-gray-300 rounded w-3/4" />
+                                <div className="h-1 bg-gray-200 rounded w-1/2" />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {option.value === 'masonry' && (
+                        <div className="w-full h-12 grid grid-cols-3 gap-1">
+                          <div className="space-y-1">
+                            <div className="bg-white border border-gray-200 rounded-sm h-6" />
+                            <div className="bg-white border border-gray-200 rounded-sm h-4" />
+                          </div>
+                          <div className="space-y-1">
+                            <div className="bg-white border border-gray-200 rounded-sm h-4" />
+                            <div className="bg-white border border-gray-200 rounded-sm h-6" />
+                          </div>
+                          <div className="space-y-1">
+                            <div className="bg-white border border-gray-200 rounded-sm h-8" />
+                            <div className="bg-white border border-gray-200 rounded-sm h-2" />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className="mt-2 pt-2 border-t border-gray-100">
+                      <p className="text-xs text-gray-500 text-center">
+                        {option.value === 'grid' && 'Equal-sized cards'}
+                        {option.value === 'list' && 'Vertical arrangement'}
+                        {option.value === 'masonry' && 'Dynamic heights'}
+                      </p>
+                    </div>
+                  </div>
+                )}
+              />
+            </div>
             
             <Input
               label="Max Posts Per Widget"
@@ -359,104 +437,7 @@ const Settings = () => {
             </div>
 </div>
         </Card>
-      </div>
-
-      {/* Layout Selector Section */}
-      <div className="mt-8">
-        <Card>
-          <div className="flex items-center space-x-3 mb-6">
-            <div className="p-2 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 rounded-lg">
-              <ApperIcon name="Layout" className="text-blue-600" size={20} />
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900">Layout Selection</h3>
-              <p className="text-sm text-gray-600">Choose how your content is displayed</p>
-            </div>
-          </div>
-          
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-              {layoutOptions.map((option) => (
-                <Card
-                  key={option.value}
-                  className={`cursor-pointer transition-all duration-300 h-48 ${
-                    settings.general.defaultLayout === option.value 
-                      ? 'ring-2 ring-primary border-primary shadow-luxury' 
-                      : 'hover:shadow-premium hover:border-gray-300'
-                  }`}
-                  onClick={() => handleGeneralChange('defaultLayout', option.value)}
-                  hover={true}
-                >
-                  <div className="flex flex-col h-full">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center space-x-3">
-                        <div className="p-1.5 bg-gray-100 rounded-md">
-                          <ApperIcon 
-                            name={option.value === 'grid' ? 'Grid3X3' : option.value === 'list' ? 'List' : 'Layers'} 
-                            className="text-gray-600" 
-                            size={16} 
-                          />
-                        </div>
-                        <h4 className="font-semibold text-gray-900">{option.label}</h4>
-                      </div>
-                      {settings.general.defaultLayout === option.value && (
-                        <ApperIcon name="Check" className="text-primary" size={18} />
-                      )}
-                    </div>
-                    
-                    <div className="flex-1 flex items-center justify-center bg-gray-50 rounded-lg p-4">
-                      {option.value === 'grid' && (
-                        <div className="w-full h-20 grid grid-cols-3 gap-2">
-                          {[...Array(6)].map((_, i) => (
-                            <div key={i} className="bg-white border border-gray-200 rounded-md shadow-sm" />
-                          ))}
-                        </div>
-                      )}
-                      {option.value === 'list' && (
-                        <div className="w-full h-20 space-y-2">
-                          {[...Array(3)].map((_, i) => (
-                            <div key={i} className="flex items-center space-x-3 bg-white border border-gray-200 rounded-md p-2">
-                              <div className="w-8 h-8 bg-gray-300 rounded-md flex-shrink-0" />
-                              <div className="flex-1 space-y-1">
-                                <div className="h-2 bg-gray-300 rounded w-3/4" />
-                                <div className="h-1.5 bg-gray-200 rounded w-1/2" />
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                      {option.value === 'masonry' && (
-                        <div className="w-full h-20 grid grid-cols-3 gap-2">
-                          <div className="space-y-2">
-                            <div className="bg-white border border-gray-200 rounded-md h-8" />
-                            <div className="bg-white border border-gray-200 rounded-md h-6" />
-                          </div>
-                          <div className="space-y-2">
-                            <div className="bg-white border border-gray-200 rounded-md h-6" />
-                            <div className="bg-white border border-gray-200 rounded-md h-8" />
-                          </div>
-                          <div className="space-y-2">
-                            <div className="bg-white border border-gray-200 rounded-md h-10" />
-                            <div className="bg-white border border-gray-200 rounded-md h-4" />
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                    
-                    <div className="mt-3 pt-3 border-t border-gray-100">
-                      <p className="text-xs text-gray-500 text-center">
-                        {option.value === 'grid' && 'Organized in equal-sized cards'}
-                        {option.value === 'list' && 'Sequential vertical arrangement'}
-                        {option.value === 'masonry' && 'Dynamic height arrangement'}
-                      </p>
-                    </div>
-                  </div>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </Card>
-      </div>
+</div>
 
       {/* Additional Settings */}
       <div className="mt-8">

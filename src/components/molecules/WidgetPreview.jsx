@@ -1,9 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
-import PostCard from "@/components/molecules/PostCard";
 import ApperIcon from "@/components/ApperIcon";
+import PostCard from "@/components/molecules/PostCard";
 
-const WidgetPreview = ({ widget, posts = [], className = '', theme = null }) => {
+const WidgetPreview = ({ widget, posts = [], className = '', theme = null, sticky = false, stickyOffset = 4 }) => {
   const activeTheme = theme || widget?.theme || 'minimal'
   
   if (!widget) {
@@ -81,12 +81,26 @@ return themeStyles[activeTheme] || themeStyles.minimal
     return themeStyles[activeTheme] || themeStyles.minimal
   }
 
-  const displayPosts = posts.slice(0, widget.maxPosts || 10)
+const displayPosts = posts.slice(0, widget.maxPosts || 10)
+
+  const getStickyClasses = () => {
+    if (!sticky) return ''
+    
+    return `sticky top-${stickyOffset} z-sticky`
+  }
+
+  const getWrapperClasses = () => {
+    const baseClasses = `rounded-xl overflow-hidden ${getContainerClasses()}`
+    const stickyClasses = getStickyClasses()
+    
+    return `${baseClasses} ${stickyClasses} ${className}`.trim()
+  }
+
 return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`rounded-xl overflow-hidden ${getContainerClasses()} ${className}`}
+      className={getWrapperClasses()}
     >
       {/* Widget Header */}
       <div className={getHeaderClasses()}>

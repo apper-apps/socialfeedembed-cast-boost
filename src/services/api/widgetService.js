@@ -10,20 +10,21 @@ export const widgetService = {
 
 async getById(id) {
     await new Promise(resolve => setTimeout(resolve, 200))
-    // Support both 'id' and 'Id' for backward compatibility
-    const widget = widgets.find(w => w.id === id || w.Id === id)
+    // Convert id to number for comparison since mock data uses numeric IDs
+    const numericId = parseInt(id, 10)
+    const widget = widgets.find(w => w.Id === numericId)
     if (!widget) {
-      console.error(`Widget not found for ID: ${id}. Available widgets:`, widgets.map(w => ({ id: w.id || w.Id, name: w.name })))
+      console.error(`Widget not found for ID: ${id}. Available widgets:`, widgets.map(w => ({ Id: w.Id, name: w.name })))
       throw new Error(`Widget not found: ${id}`)
     }
     return { ...widget }
   },
 
-  async create(widgetData) {
+async create(widgetData) {
     await new Promise(resolve => setTimeout(resolve, 400))
     const newWidget = {
       ...widgetData,
-      Id: Math.max(...widgets.map(w => w.Id), 0) + 1,
+      Id: Math.max(...widgets.map(w => w.Id || 0), 0) + 1,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     }
@@ -33,16 +34,17 @@ async getById(id) {
 
 async update(id, widgetData) {
     await new Promise(resolve => setTimeout(resolve, 400))
-    // Support both 'id' and 'Id' for backward compatibility
-    const index = widgets.findIndex(w => w.id === id || w.Id === id)
+    // Convert id to number for comparison since mock data uses numeric IDs
+    const numericId = parseInt(id, 10)
+    const index = widgets.findIndex(w => w.Id === numericId)
     if (index === -1) {
-      console.error(`Widget not found for update with ID: ${id}. Available widgets:`, widgets.map(w => ({ id: w.id || w.Id, name: w.name })))
+      console.error(`Widget not found for update with ID: ${id}. Available widgets:`, widgets.map(w => ({ Id: w.Id, name: w.name })))
       throw new Error(`Widget not found for update: ${id}`)
     }
     widgets[index] = {
       ...widgets[index],
       ...widgetData,
-      id: id, // Standardize on lowercase 'id'
+      Id: numericId, // Maintain consistent uppercase 'Id'
       updatedAt: new Date().toISOString()
     }
     return { ...widgets[index] }
@@ -50,10 +52,11 @@ async update(id, widgetData) {
 
 async delete(id) {
     await new Promise(resolve => setTimeout(resolve, 300))
-    // Support both 'id' and 'Id' for backward compatibility
-    const index = widgets.findIndex(w => w.id === id || w.Id === id)
+    // Convert id to number for comparison since mock data uses numeric IDs
+    const numericId = parseInt(id, 10)
+    const index = widgets.findIndex(w => w.Id === numericId)
     if (index === -1) {
-      console.error(`Widget not found for deletion with ID: ${id}. Available widgets:`, widgets.map(w => ({ id: w.id || w.Id, name: w.name })))
+      console.error(`Widget not found for deletion with ID: ${id}. Available widgets:`, widgets.map(w => ({ Id: w.Id, name: w.name })))
       throw new Error(`Widget not found for deletion: ${id}`)
     }
     widgets.splice(index, 1)

@@ -431,11 +431,11 @@ useEffect(() => {
             {isEditing ? 'Update Widget' : 'Save Widget'}
           </Button>
         </div>
-      </div>
+</div>
 
-<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
+<div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-5 gap-6 lg:gap-8 h-full">
         {/* Configuration Panel */}
-        <div className="space-y-6">
+        <div className="lg:col-span-2 xl:col-span-3 space-y-6">
           {/* Platform Selection */}
           <Card>
             <PlatformSelector
@@ -1177,15 +1177,19 @@ useEffect(() => {
               </div>
             </Card>
           )}
-        </div>
+</div>
 
         {/* Preview Panel */}
-        <div className="lg:sticky lg:top-6">
-          <WidgetPreview
-            widget={widget}
-            posts={posts}
-            className="h-full"
-          />
+        <div className="lg:col-span-1 xl:col-span-2">
+          <div className="lg:sticky lg:top-8 lg:max-h-[calc(100vh-6rem)]">
+            <WidgetPreview
+              widget={widget}
+              posts={posts}
+              sticky={true}
+              stickyOffset={8}
+              className="h-full"
+            />
+          </div>
         </div>
       </div>
 

@@ -209,9 +209,26 @@ const themeOptions = [
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
+<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
         {/* Configuration Panel */}
-<div className="space-y-6">
+        <div className="space-y-6">
+          {/* Platform Selection */}
+          <Card>
+            <PlatformSelector
+              selectedPlatforms={widget.platforms}
+              onPlatformChange={(platforms) => setWidget(prev => ({ ...prev, platforms }))}
+            />
+          </Card>
+
+          {/* Filters */}
+          <Card>
+            <FilterInput
+              filters={widget.filters}
+              onFiltersChange={(filters) => setWidget(prev => ({ ...prev, filters }))}
+              selectedPlatforms={widget.platforms}
+            />
+          </Card>
+
           {/* Basic Settings */}
           <Card>
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Basic Settings</h3>
@@ -287,22 +304,6 @@ const themeOptions = [
                 />
               </div>
             </div>
-          </Card>
-          {/* Platform Selection */}
-          <Card>
-            <PlatformSelector
-              selectedPlatforms={widget.platforms}
-              onPlatformChange={(platforms) => setWidget(prev => ({ ...prev, platforms }))}
-            />
-          </Card>
-
-          {/* Filters */}
-          <Card>
-            <FilterInput
-              filters={widget.filters}
-              onFiltersChange={(filters) => setWidget(prev => ({ ...prev, filters }))}
-              selectedPlatforms={widget.platforms}
-            />
           </Card>
         </div>
 

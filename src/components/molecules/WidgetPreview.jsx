@@ -22,7 +22,8 @@ const WidgetPreview = ({ widget, posts = [], className = '', theme = null, stick
   }
 
 const getLayoutClasses = () => {
-    const settings = widget[`${widget.layout}Settings`] || {}
+    // Safely get layout settings with fallback defaults
+    const settings = widget?.[`${widget.layout}Settings`] || {}
     
     const getGapClass = (gapSize) => {
       const gapMap = {
@@ -47,7 +48,7 @@ const getLayoutClasses = () => {
     }
 
     const getColumnsClass = (cols) => {
-      if (cols === 'auto') return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+      if (cols === 'auto' || !cols) return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
       const colsMap = {
         '1': 'grid-cols-1',
         '2': 'grid-cols-1 md:grid-cols-2',
@@ -59,7 +60,7 @@ const getLayoutClasses = () => {
     }
 
     const getMasonryColumnsClass = (cols) => {
-      if (cols === 'auto') return 'columns-1 md:columns-2 lg:columns-3'
+      if (cols === 'auto' || !cols) return 'columns-1 md:columns-2 lg:columns-3'
       const colsMap = {
         '2': 'columns-1 md:columns-2',
         '3': 'columns-1 md:columns-2 lg:columns-3', 
@@ -70,7 +71,7 @@ const getLayoutClasses = () => {
     }
 
     const baseLayout = (() => {
-      switch (widget.layout) {
+      switch (widget?.layout) {
         case 'grid':
           const gridCols = getColumnsClass(settings.columns)
           const gridGap = getGapClass(settings.gap)
@@ -98,10 +99,10 @@ const getLayoutClasses = () => {
 
     // Theme-specific adjustments (fallback for older widgets)
     const themeAdjustments = {
-      minimal: widget.layout === 'grid' && !settings.gap ? 'gap-6' : '',
-      card: widget.layout === 'grid' && !settings.gap ? 'gap-4' : '',
-      compact: widget.layout === 'grid' && !settings.gap ? 'gap-2' : '',
-      magazine: widget.layout === 'grid' && !settings.gap ? 'gap-5' : ''
+      minimal: widget?.layout === 'grid' && !settings.gap ? 'gap-6' : '',
+      card: widget?.layout === 'grid' && !settings.gap ? 'gap-4' : '',
+      compact: widget?.layout === 'grid' && !settings.gap ? 'gap-2' : '',
+      magazine: widget?.layout === 'grid' && !settings.gap ? 'gap-5' : ''
     }
 
     return `${baseLayout} ${themeAdjustments[activeTheme] || ''}`.trim()
@@ -207,15 +208,15 @@ widget.layout === 'slider' ? (
               modules={[Navigation, Pagination, Autoplay]}
               spaceBetween={16}
               slidesPerView={1}
-              navigation={widget.sliderSettings?.navigation !== false}
-              pagination={widget.sliderSettings?.pagination !== false ? { clickable: true } : false}
-              autoplay={widget.sliderSettings?.autoplay !== false ? { 
-                delay: widget.sliderSettings?.autoplayDelay || 3000, 
+navigation={widget?.sliderSettings?.navigation !== false}
+              pagination={widget?.sliderSettings?.pagination !== false ? { clickable: true } : false}
+              autoplay={widget?.sliderSettings?.autoplay !== false ? { 
+                delay: widget?.sliderSettings?.autoplayDelay || 3000, 
                 disableOnInteraction: false 
               } : false}
-              speed={widget.sliderSettings?.speed || 300}
-              allowTouchMove={widget.sliderSettings?.dragControl !== false}
-              loop={widget.sliderSettings?.loop !== false}
+              speed={widget?.sliderSettings?.speed || 300}
+              allowTouchMove={widget?.sliderSettings?.dragControl !== false}
+              loop={widget?.sliderSettings?.loop !== false}
               breakpoints={{
                 640: { slidesPerView: 1 },
                 768: { slidesPerView: 2 },
@@ -234,22 +235,22 @@ widget.layout === 'slider' ? (
               ))}
             </Swiper>
 ) : (
-            <div className={getLayoutClasses()}>
+<div className={getLayoutClasses()}>
               {displayPosts.map((post, index) => {
-                const settings = widget[`${widget.layout}Settings`] || {}
-                const isAlternate = widget.layout === 'list' && settings.alternateLayout && index % 2 === 1
+                const settings = widget?.[`${widget.layout}Settings`] || {}
+                const isAlternate = widget?.layout === 'list' && settings.alternateLayout && index % 2 === 1
                 
                 return (
                   <PostCard
                     key={post.Id}
                     post={post}
-                    layout={widget.layout}
+                    layout={widget?.layout}
                     theme={activeTheme}
                     layoutSettings={settings}
                     isAlternate={isAlternate}
                     animationDelay={settings.animation === 'stagger' || settings.animation === 'cascade' ? index * 100 : 0}
                     className={`
-                      ${widget.layout === 'masonry' ? `break-inside-${settings.breakInside || 'avoid'}` : ''}
+                      ${widget?.layout === 'masonry' ? `break-inside-${settings.breakInside || 'avoid'}` : ''}
                       ${settings.animation === 'fadeIn' ? 'animate-fade-in' : ''}
                       ${settings.animation === 'slideUp' ? 'animate-slide-up' : ''}
                       ${settings.animation === 'slideIn' ? 'animate-slide-in' : ''}

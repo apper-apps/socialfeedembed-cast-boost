@@ -122,7 +122,50 @@ const loadWidget = async () => {
       setLoading(true);
       setError('');
       const widgetData = await widgetService.getById(id);
-      setWidget(widgetData);
+      
+      // Ensure all layout settings exist with fallbacks
+      const safeWidgetData = {
+        ...widgetData,
+        sliderSettings: {
+          autoplay: true,
+          autoplayDelay: 3000,
+          speed: 300,
+          dragControl: true,
+          navigation: true,
+          pagination: true,
+          loop: true,
+          ...(widgetData.sliderSettings || {})
+        },
+        gridSettings: {
+          columns: 'auto',
+          gap: 'md',
+          aspectRatio: 'auto',
+          hoverEffect: 'lift',
+          animation: 'fadeIn',
+          equalHeight: false,
+          ...(widgetData.gridSettings || {})
+        },
+        listSettings: {
+          spacing: 'md',
+          showDividers: true,
+          alternateLayout: false,
+          hoverEffect: 'scale',
+          animation: 'slideIn',
+          compactMode: false,
+          ...(widgetData.listSettings || {})
+        },
+        masonrySettings: {
+          columns: 'auto',
+          gap: 'md',
+          animation: 'stagger',
+          breakInside: 'avoid',
+          balanceHeight: true,
+          minItemHeight: 200,
+          ...(widgetData.masonrySettings || {})
+        }
+      };
+      
+      setWidget(safeWidgetData);
       toast.success('Widget loaded successfully');
     } catch (error) {
       setError('Failed to load widget. Please try again.');
@@ -133,27 +176,47 @@ const loadWidget = async () => {
     }
   };
 
-  const loadTemplate = async () => {
+const loadTemplate = async () => {
     try {
       setLoading(true);
       const templateData = await templateService.getById(templateId);
-      setWidget({
+      setWidget(prev => ({
+        ...prev,
         name: templateData.name,
         platforms: templateData.platforms || [],
         filters: templateData.filters || [],
         layout: templateData.layout || "grid",
         theme: templateData.theme || "minimal",
         maxPosts: templateData.maxPosts || 10,
-      });
+        sortBy: templateData.sortBy || "newest",
+        // Preserve existing layout settings and merge with template data
+        sliderSettings: {
+          ...prev.sliderSettings,
+          ...(templateData.sliderSettings || {})
+        },
+        gridSettings: {
+          ...prev.gridSettings,
+          ...(templateData.gridSettings || {})
+        },
+        listSettings: {
+          ...prev.listSettings,
+          ...(templateData.listSettings || {})
+        },
+        masonrySettings: {
+          ...prev.masonrySettings,
+          ...(templateData.masonrySettings || {})
+        }
+      }));
       toast.success(`Template "${templateData.name}" loaded successfully`);
     } catch (error) {
+      console.error('Error loading template:', error);
       toast.error("Failed to load template");
     } finally {
       setLoading(false);
     }
   };
 
-  const loadFromUrlParams = () => {
+const loadFromUrlParams = () => {
     try {
       const name = searchParams.get('name');
       const platforms = searchParams.get('platforms');
@@ -162,7 +225,7 @@ const loadWidget = async () => {
       const theme = searchParams.get('theme');
       const maxPosts = searchParams.get('maxPosts');
 
-      if (name || platforms || filters) {
+      if (name || platforms || filters || layout || theme || maxPosts) {
         setWidget(prev => ({
           ...prev,
           ...(name && { name }),
@@ -170,11 +233,46 @@ const loadWidget = async () => {
           ...(filters && { filters: JSON.parse(filters) }),
           ...(layout && { layout }),
           ...(theme && { theme }),
-          ...(maxPosts && { maxPosts: parseInt(maxPosts) })
+          ...(maxPosts && { maxPosts: parseInt(maxPosts) }),
+          // Ensure layout settings remain intact
+          sliderSettings: prev.sliderSettings || {
+            autoplay: true,
+            autoplayDelay: 3000,
+            speed: 300,
+            dragControl: true,
+            navigation: true,
+            pagination: true,
+            loop: true
+          },
+          gridSettings: prev.gridSettings || {
+            columns: 'auto',
+            gap: 'md',
+            aspectRatio: 'auto',
+            hoverEffect: 'lift',
+            animation: 'fadeIn',
+            equalHeight: false
+          },
+          listSettings: prev.listSettings || {
+            spacing: 'md',
+            showDividers: true,
+            alternateLayout: false,
+            hoverEffect: 'scale',
+            animation: 'slideIn',
+            compactMode: false
+          },
+          masonrySettings: prev.masonrySettings || {
+            columns: 'auto',
+            gap: 'md',
+            animation: 'stagger',
+            breakInside: 'avoid',
+            balanceHeight: true,
+            minItemHeight: 200
+          }
         }));
       }
     } catch (error) {
       console.error('Error loading from URL parameters:', error);
+      toast.error('Failed to load widget parameters from URL');
     }
   };
 

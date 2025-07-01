@@ -435,7 +435,7 @@ useEffect(() => {
 
 <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-5 gap-6 lg:gap-8 h-full">
         {/* Configuration Panel */}
-        <div className="lg:col-span-2 xl:col-span-3 space-y-6">
+        <div className="lg:col-span-2 xl:col-span-2 space-y-6">
           {/* Platform Selection */}
           <Card>
             <PlatformSelector
@@ -1180,7 +1180,7 @@ useEffect(() => {
 </div>
 
         {/* Preview Panel */}
-        <div className="lg:col-span-1 xl:col-span-2">
+        <div className="lg:col-span-1 xl:col-span-3">
           <div className="lg:sticky lg:top-8 lg:max-h-[calc(100vh-6rem)]">
             <WidgetPreview
               widget={widget}

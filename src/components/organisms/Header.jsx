@@ -1,7 +1,22 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Button from '@/components/atoms/Button'
 import ApperIcon from '@/components/ApperIcon'
+import { AuthContext } from '@/App'
 
+const LogoutButton = () => {
+  const { logout } = useContext(AuthContext)
+  
+  return (
+    <Button
+      variant="ghost"
+      size="sm"
+      icon="LogOut"
+      onClick={logout}
+      className="text-gray-600 hover:text-red-600"
+      title="Logout"
+    />
+  )
+}
 const Header = ({ onMenuClick, title, actions }) => {
   return (
     <header className="bg-white border-b border-gray-200 shadow-sm">
@@ -21,7 +36,7 @@ const Header = ({ onMenuClick, title, actions }) => {
             )}
           </div>
 
-          {/* Right side */}
+{/* Right side */}
           <div className="flex items-center space-x-3">
             {actions}
             <div className="hidden sm:flex items-center space-x-2">
@@ -33,6 +48,7 @@ const Header = ({ onMenuClick, title, actions }) => {
                 <p className="text-gray-500">Unlimited widgets</p>
               </div>
             </div>
+            <LogoutButton />
           </div>
         </div>
       </div>

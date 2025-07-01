@@ -1,7 +1,7 @@
-import React from 'react'
-import { motion } from 'framer-motion'
-import PostCard from './PostCard'
-import ApperIcon from '@/components/ApperIcon'
+import React from "react";
+import { motion } from "framer-motion";
+import PostCard from "@/components/molecules/PostCard";
+import ApperIcon from "@/components/ApperIcon";
 
 const WidgetPreview = ({ widget, posts = [], className = '', theme = null }) => {
   const activeTheme = theme || widget?.theme || 'minimal'
@@ -68,11 +68,20 @@ const getLayoutClasses = () => {
       compact: 'p-2',
       magazine: 'p-6'
     }
+return themeStyles[activeTheme] || themeStyles.minimal
+  }
+
+  const getMaxHeightClasses = () => {
+    const themeStyles = {
+      minimal: 'max-h-96',
+      card: 'max-h-80',
+      compact: 'max-h-64',
+      magazine: 'max-h-[32rem]'
+    }
     return themeStyles[activeTheme] || themeStyles.minimal
   }
 
   const displayPosts = posts.slice(0, widget.maxPosts || 10)
-
 return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -110,8 +119,8 @@ return (
         </div>
       </div>
 
-      {/* Widget Content */}
-      <div className={`${getContentClasses()} max-h-96 overflow-y-auto`}>
+{/* Widget Content */}
+      <div className={`${getContentClasses()} ${getMaxHeightClasses()} overflow-y-auto overflow-x-hidden`}>
         {displayPosts.length > 0 ? (
           <div className={getLayoutClasses()}>
             {displayPosts.map((post, index) => (

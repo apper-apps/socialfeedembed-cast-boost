@@ -1,10 +1,18 @@
-import React from 'react'
-import { motion } from 'framer-motion'
-import { formatDistanceToNow } from 'date-fns'
-import Badge from '@/components/atoms/Badge'
-import ApperIcon from '@/components/ApperIcon'
+import React from "react";
+import { motion } from "framer-motion";
+import { formatDistanceToNow } from "date-fns";
+import ApperIcon from "@/components/ApperIcon";
+import Badge from "@/components/atoms/Badge";
 
-const PostCard = ({ post, layout = 'grid', theme = 'minimal', className = '' }) => {
+const PostCard = ({ 
+  post, 
+  layout = 'grid', 
+  theme = 'minimal', 
+  className = '', 
+  layoutSettings = {}, 
+  isAlternate = false,
+  animationDelay = 0 
+}) => {
   const platformColors = {
     twitter: 'twitter',
     instagram: 'instagram',
@@ -33,7 +41,7 @@ const PostCard = ({ post, layout = 'grid', theme = 'minimal', className = '' }) 
     return themeStyles[theme] || themeStyles.minimal
   }
 
-  const getPadding = () => {
+const getPadding = () => {
     const paddingStyles = {
       minimal: 'p-6',
       card: 'p-4',
@@ -42,36 +50,82 @@ const PostCard = ({ post, layout = 'grid', theme = 'minimal', className = '' }) 
     }
     return paddingStyles[theme] || paddingStyles.minimal
   }
-  const isGridLayout = layout === 'grid'
-  const isListLayout = layout === 'list'
+  const getHoverEffect = () => {
+    const hoverEffect = layoutSettings.hoverEffect || 'none'
+    const hoverMap = {
+      none: '',
+      lift: 'hover:-translate-y-2 hover:shadow-lg',
+      scale: 'hover:scale-105',
+      glow: 'hover:shadow-xl hover:shadow-primary/20',
+      slide: 'hover:translate-x-1',
+      highlight: 'hover:bg-primary/5 hover:border-primary/20'
+    }
+    return hoverMap[hoverEffect] || ''
+  }
 
-return (
+  const getAspectRatioClass = () => {
+    if (layout !== 'grid' || !layoutSettings.aspectRatio) return ''
+    const ratioMap = {
+      square: 'aspect-square',
+      video: 'aspect-video', 
+      portrait: 'aspect-[3/4]',
+      auto: ''
+    }
+    return ratioMap[layoutSettings.aspectRatio] || ''
+  }
+
+const isGridLayout = layout === 'grid'
+  const isListLayout = layout === 'list'
+  const isMasonry = layout === 'masonry'
+
+  return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: theme === 'compact' ? 0 : -2 }}
+      animate={{ 
+        opacity: 1, 
+        y: 0,
+        transition: { delay: animationDelay / 1000 }
+      }}
+      whileHover={{ 
+        y: theme === 'compact' ? 0 : (layoutSettings.hoverEffect === 'lift' ? -8 : -2),
+        scale: layoutSettings.hoverEffect === 'scale' ? 1.02 : 1
+      }}
       className={`
         rounded-xl transition-all duration-200 overflow-hidden
         ${getCardClasses()}
-        ${isListLayout ? 'flex' : ''}
+        ${getHoverEffect()}
+        ${isListLayout ? `flex ${isAlternate ? 'flex-row-reverse' : ''}` : ''}
+        ${isGridLayout && layoutSettings.equalHeight ? 'h-full' : ''}
         ${theme === 'minimal' ? 'rounded-none border-b border-gray-100 last:border-b-0' : ''}
+        ${layoutSettings.compactMode ? 'p-1' : ''}
         ${className}
       `}
-    >
+      style={{
+        animationDelay: `${animationDelay}ms`,
+        minHeight: isMasonry && layoutSettings.minItemHeight ? `${layoutSettings.minItemHeight}px` : 'auto'
+      }}
+>
       {/* Media */}
       {post.media && post.media.length > 0 && (
-        <div className={`${isListLayout ? (theme === 'compact' ? 'w-16 flex-shrink-0' : 'w-32 flex-shrink-0') : 'aspect-video'} bg-gray-100 relative`}>
+        <div className={`
+          ${isListLayout ? (
+            layoutSettings.compactMode || theme === 'compact' ? 'w-16 flex-shrink-0' : 'w-32 flex-shrink-0'
+          ) : (
+            getAspectRatioClass() || 'aspect-video'
+          )} 
+          bg-gray-100 relative
+        `}>
           <img
             src={post.media[0]}
             alt=""
             className="w-full h-full object-cover"
           />
-          <div className={`absolute ${theme === 'compact' ? 'top-1 right-1' : 'top-2 right-2'}`}>
-            <Badge variant={platformColors[post.platform]} size={theme === 'compact' ? 'xs' : 'sm'}>
-              <ApperIcon name={platformIcons[post.platform]} size={theme === 'compact' ? 10 : 12} className="mr-1" />
-              {theme === 'compact' ? '' : post.platform}
+          <div className={`absolute ${theme === 'compact' || layoutSettings.compactMode ? 'top-1 right-1' : 'top-2 right-2'}`}>
+            <Badge variant={platformColors[post.platform]} size={theme === 'compact' || layoutSettings.compactMode ? 'xs' : 'sm'}>
+              <ApperIcon name={platformIcons[post.platform]} size={theme === 'compact' || layoutSettings.compactMode ? 10 : 12} className="mr-1" />
+              {theme === 'compact' || layoutSettings.compactMode ? '' : post.platform}
             </Badge>
-          </div>
+</div>
         </div>
       )}
 

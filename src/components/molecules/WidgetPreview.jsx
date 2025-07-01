@@ -22,30 +22,89 @@ const WidgetPreview = ({ widget, posts = [], className = '', theme = null, stick
   }
 
 const getLayoutClasses = () => {
+    const settings = widget[`${widget.layout}Settings`] || {}
+    
+    const getGapClass = (gapSize) => {
+      const gapMap = {
+        xs: 'gap-1',
+        sm: 'gap-2', 
+        md: 'gap-4',
+        lg: 'gap-6',
+        xl: 'gap-8'
+      }
+      return gapMap[gapSize] || 'gap-4'
+    }
+
+    const getSpacingClass = (spacing) => {
+      const spacingMap = {
+        xs: 'space-y-1',
+        sm: 'space-y-2',
+        md: 'space-y-4', 
+        lg: 'space-y-6',
+        xl: 'space-y-8'
+      }
+      return spacingMap[spacing] || 'space-y-4'
+    }
+
+    const getColumnsClass = (cols) => {
+      if (cols === 'auto') return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+      const colsMap = {
+        '1': 'grid-cols-1',
+        '2': 'grid-cols-1 md:grid-cols-2',
+        '3': 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+        '4': 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
+        '5': 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5'
+      }
+      return colsMap[cols] || 'grid-cols-1 md:grid-cols-2'
+    }
+
+    const getMasonryColumnsClass = (cols) => {
+      if (cols === 'auto') return 'columns-1 md:columns-2 lg:columns-3'
+      const colsMap = {
+        '2': 'columns-1 md:columns-2',
+        '3': 'columns-1 md:columns-2 lg:columns-3', 
+        '4': 'columns-1 md:columns-2 lg:columns-3 xl:columns-4',
+        '5': 'columns-1 md:columns-2 lg:columns-3 xl:columns-4 2xl:columns-5'
+      }
+      return colsMap[cols] || 'columns-1 md:columns-2'
+    }
+
     const baseLayout = (() => {
       switch (widget.layout) {
         case 'grid':
-          return 'grid grid-cols-1 md:grid-cols-2 gap-4'
+          const gridCols = getColumnsClass(settings.columns)
+          const gridGap = getGapClass(settings.gap)
+          const equalHeight = settings.equalHeight ? 'grid-rows-1' : ''
+          return `grid ${gridCols} ${gridGap} ${equalHeight}`.trim()
+        
         case 'list':
-          return 'space-y-4'
+          const listSpacing = getSpacingClass(settings.spacing)
+          const dividers = settings.showDividers ? 'divide-y divide-gray-100' : ''
+          const compact = settings.compactMode ? 'space-y-2' : listSpacing
+          return `${compact} ${dividers}`.trim()
+        
         case 'masonry':
-          return 'columns-1 md:columns-2 gap-4 space-y-4'
+          const masonryCols = getMasonryColumnsClass(settings.columns)
+          const masonryGap = getGapClass(settings.gap)
+          return `${masonryCols} ${masonryGap}`.trim()
+        
         case 'slider':
           return 'slider-container'
+        
         default:
           return 'grid grid-cols-1 md:grid-cols-2 gap-4'
       }
     })()
 
-    // Theme-specific adjustments
+    // Theme-specific adjustments (fallback for older widgets)
     const themeAdjustments = {
-      minimal: 'gap-6',
-      card: 'gap-4',
-      compact: 'gap-2',
-      magazine: 'gap-5'
+      minimal: widget.layout === 'grid' && !settings.gap ? 'gap-6' : '',
+      card: widget.layout === 'grid' && !settings.gap ? 'gap-4' : '',
+      compact: widget.layout === 'grid' && !settings.gap ? 'gap-2' : '',
+      magazine: widget.layout === 'grid' && !settings.gap ? 'gap-5' : ''
     }
 
-    return `${baseLayout} ${themeAdjustments[activeTheme] || ''}`
+    return `${baseLayout} ${themeAdjustments[activeTheme] || ''}`.trim()
   }
 
   const getContainerClasses = () => {
@@ -174,17 +233,34 @@ widget.layout === 'slider' ? (
                 </SwiperSlide>
               ))}
             </Swiper>
-          ) : (
+) : (
             <div className={getLayoutClasses()}>
-              {displayPosts.map((post, index) => (
-                <PostCard
-                  key={post.Id}
-                  post={post}
-                  layout={widget.layout}
-                  theme={activeTheme}
-                  className={widget.layout === 'masonry' ? 'break-inside-avoid' : ''}
-                />
-              ))}
+              {displayPosts.map((post, index) => {
+                const settings = widget[`${widget.layout}Settings`] || {}
+                const isAlternate = widget.layout === 'list' && settings.alternateLayout && index % 2 === 1
+                
+                return (
+                  <PostCard
+                    key={post.Id}
+                    post={post}
+                    layout={widget.layout}
+                    theme={activeTheme}
+                    layoutSettings={settings}
+                    isAlternate={isAlternate}
+                    animationDelay={settings.animation === 'stagger' || settings.animation === 'cascade' ? index * 100 : 0}
+                    className={`
+                      ${widget.layout === 'masonry' ? `break-inside-${settings.breakInside || 'avoid'}` : ''}
+                      ${settings.animation === 'fadeIn' ? 'animate-fade-in' : ''}
+                      ${settings.animation === 'slideUp' ? 'animate-slide-up' : ''}
+                      ${settings.animation === 'slideIn' ? 'animate-slide-in' : ''}
+                      ${settings.animation === 'stagger' ? 'animate-fade-in' : ''}
+                      ${settings.animation === 'cascade' ? 'animate-cascade' : ''}
+                      ${settings.animation === 'wave' ? 'animate-wave' : ''}
+                      ${settings.minItemHeight ? `min-h-[${settings.minItemHeight}px]` : ''}
+                    `.trim()}
+                  />
+                )
+              })}
             </div>
           )
         ) : (

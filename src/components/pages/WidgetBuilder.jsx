@@ -43,6 +43,30 @@ const [widget, setWidget] = useState({
       navigation: true,
       pagination: true,
       loop: true
+    },
+    gridSettings: {
+      columns: 'auto',
+      gap: 'md',
+      aspectRatio: 'auto',
+      hoverEffect: 'lift',
+      animation: 'fadeIn',
+      equalHeight: false
+    },
+    listSettings: {
+      spacing: 'md',
+      showDividers: true,
+      alternateLayout: false,
+      hoverEffect: 'scale',
+      animation: 'slideIn',
+      compactMode: false
+    },
+    masonrySettings: {
+      columns: 'auto',
+      gap: 'md',
+      animation: 'stagger',
+      breakInside: 'avoid',
+      balanceHeight: true,
+      minItemHeight: 200
     }
   });
   const [posts, setPosts] = useState([]);
@@ -554,6 +578,501 @@ useEffect(() => {
                           }
                         }))}
                       />
+                    </div>
+                  </div>
+                </div>
+</div>
+            </Card>
+          )}
+
+          {/* Grid Layout Customization Settings */}
+          {widget.layout === 'grid' && (
+            <Card>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Grid Settings</h3>
+              <div className="space-y-6">
+                {/* Column Settings */}
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-sm font-medium text-gray-900 mb-2 block">Columns</label>
+                    <div className="grid grid-cols-4 gap-2">
+                      {['auto', '1', '2', '3', '4'].map((cols) => (
+                        <button
+                          key={cols}
+                          type="button"
+                          onClick={() => setWidget(prev => ({
+                            ...prev,
+                            gridSettings: { ...prev.gridSettings, columns: cols }
+                          }))}
+                          className={`p-2 text-sm border rounded-lg transition-all ${
+                            widget.gridSettings.columns === cols
+                              ? 'border-primary bg-primary/5 text-primary'
+                              : 'border-gray-200 hover:border-gray-300'
+                          }`}
+                        >
+                          {cols === 'auto' ? 'Auto' : `${cols} Col`}
+                        </button>
+                      ))}
+                    </div>
+                    <p className="text-xs text-gray-600 mt-1">Auto adjusts based on screen size</p>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-gray-900 mb-2 block">Gap Size</label>
+                    <div className="grid grid-cols-4 gap-2">
+                      {[
+                        { value: 'xs', label: 'XS' },
+                        { value: 'sm', label: 'SM' },
+                        { value: 'md', label: 'MD' },
+                        { value: 'lg', label: 'LG' },
+                        { value: 'xl', label: 'XL' }
+                      ].map((gap) => (
+                        <button
+                          key={gap.value}
+                          type="button"
+                          onClick={() => setWidget(prev => ({
+                            ...prev,
+                            gridSettings: { ...prev.gridSettings, gap: gap.value }
+                          }))}
+                          className={`p-2 text-sm border rounded-lg transition-all ${
+                            widget.gridSettings.gap === gap.value
+                              ? 'border-primary bg-primary/5 text-primary'
+                              : 'border-gray-200 hover:border-gray-300'
+                          }`}
+                        >
+                          {gap.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-gray-900 mb-2 block">Aspect Ratio</label>
+                    <div className="grid grid-cols-3 gap-2">
+                      {[
+                        { value: 'auto', label: 'Auto' },
+                        { value: 'square', label: 'Square' },
+                        { value: 'video', label: '16:9' },
+                        { value: 'portrait', label: '3:4' }
+                      ].map((ratio) => (
+                        <button
+                          key={ratio.value}
+                          type="button"
+                          onClick={() => setWidget(prev => ({
+                            ...prev,
+                            gridSettings: { ...prev.gridSettings, aspectRatio: ratio.value }
+                          }))}
+                          className={`p-2 text-sm border rounded-lg transition-all ${
+                            widget.gridSettings.aspectRatio === ratio.value
+                              ? 'border-primary bg-primary/5 text-primary'
+                              : 'border-gray-200 hover:border-gray-300'
+                          }`}
+                        >
+                          {ratio.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Visual Effects */}
+                <div className="space-y-4">
+                  <h4 className="text-sm font-medium text-gray-900">Visual Effects</h4>
+                  
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 mb-2 block">Hover Effect</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { value: 'none', label: 'None' },
+                        { value: 'lift', label: 'Lift' },
+                        { value: 'scale', label: 'Scale' },
+                        { value: 'glow', label: 'Glow' }
+                      ].map((effect) => (
+                        <button
+                          key={effect.value}
+                          type="button"
+                          onClick={() => setWidget(prev => ({
+                            ...prev,
+                            gridSettings: { ...prev.gridSettings, hoverEffect: effect.value }
+                          }))}
+                          className={`p-2 text-sm border rounded-lg transition-all ${
+                            widget.gridSettings.hoverEffect === effect.value
+                              ? 'border-primary bg-primary/5 text-primary'
+                              : 'border-gray-200 hover:border-gray-300'
+                          }`}
+                        >
+                          {effect.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 mb-2 block">Animation</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { value: 'none', label: 'None' },
+                        { value: 'fadeIn', label: 'Fade In' },
+                        { value: 'slideUp', label: 'Slide Up' },
+                        { value: 'stagger', label: 'Stagger' }
+                      ].map((anim) => (
+                        <button
+                          key={anim.value}
+                          type="button"
+                          onClick={() => setWidget(prev => ({
+                            ...prev,
+                            gridSettings: { ...prev.gridSettings, animation: anim.value }
+                          }))}
+                          className={`p-2 text-sm border rounded-lg transition-all ${
+                            widget.gridSettings.animation === anim.value
+                              ? 'border-primary bg-primary/5 text-primary'
+                              : 'border-gray-200 hover:border-gray-300'
+                          }`}
+                        >
+                          {anim.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <label className="text-sm font-medium text-gray-700">Equal Height Cards</label>
+                      <p className="text-xs text-gray-600">Make all cards the same height</p>
+                    </div>
+                    <Checkbox
+                      checked={widget.gridSettings.equalHeight}
+                      onChange={(e) => setWidget(prev => ({
+                        ...prev,
+                        gridSettings: {
+                          ...prev.gridSettings,
+                          equalHeight: e.target.checked
+                        }
+                      }))}
+                    />
+                  </div>
+                </div>
+              </div>
+            </Card>
+          )}
+
+          {/* List Layout Customization Settings */}
+          {widget.layout === 'list' && (
+            <Card>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">List Settings</h3>
+              <div className="space-y-6">
+                {/* Spacing Settings */}
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-sm font-medium text-gray-900 mb-2 block">Item Spacing</label>
+                    <div className="grid grid-cols-5 gap-2">
+                      {[
+                        { value: 'xs', label: 'XS' },
+                        { value: 'sm', label: 'SM' },
+                        { value: 'md', label: 'MD' },
+                        { value: 'lg', label: 'LG' },
+                        { value: 'xl', label: 'XL' }
+                      ].map((spacing) => (
+                        <button
+                          key={spacing.value}
+                          type="button"
+                          onClick={() => setWidget(prev => ({
+                            ...prev,
+                            listSettings: { ...prev.listSettings, spacing: spacing.value }
+                          }))}
+                          className={`p-2 text-sm border rounded-lg transition-all ${
+                            widget.listSettings.spacing === spacing.value
+                              ? 'border-primary bg-primary/5 text-primary'
+                              : 'border-gray-200 hover:border-gray-300'
+                          }`}
+                        >
+                          {spacing.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Layout Options */}
+                <div className="space-y-4">
+                  <h4 className="text-sm font-medium text-gray-900">Layout Options</h4>
+                  
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <label className="text-sm font-medium text-gray-700">Show Dividers</label>
+                      <p className="text-xs text-gray-600">Add lines between items</p>
+                    </div>
+                    <Checkbox
+                      checked={widget.listSettings.showDividers}
+                      onChange={(e) => setWidget(prev => ({
+                        ...prev,
+                        listSettings: {
+                          ...prev.listSettings,
+                          showDividers: e.target.checked
+                        }
+                      }))}
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <label className="text-sm font-medium text-gray-700">Alternate Layout</label>
+                      <p className="text-xs text-gray-600">Alternate image position</p>
+                    </div>
+                    <Checkbox
+                      checked={widget.listSettings.alternateLayout}
+                      onChange={(e) => setWidget(prev => ({
+                        ...prev,
+                        listSettings: {
+                          ...prev.listSettings,
+                          alternateLayout: e.target.checked
+                        }
+                      }))}
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <label className="text-sm font-medium text-gray-700">Compact Mode</label>
+                      <p className="text-xs text-gray-600">Reduce spacing and padding</p>
+                    </div>
+                    <Checkbox
+                      checked={widget.listSettings.compactMode}
+                      onChange={(e) => setWidget(prev => ({
+                        ...prev,
+                        listSettings: {
+                          ...prev.listSettings,
+                          compactMode: e.target.checked
+                        }
+                      }))}
+                    />
+                  </div>
+                </div>
+
+                {/* Visual Effects */}
+                <div className="space-y-4">
+                  <h4 className="text-sm font-medium text-gray-900">Visual Effects</h4>
+                  
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 mb-2 block">Hover Effect</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { value: 'none', label: 'None' },
+                        { value: 'scale', label: 'Scale' },
+                        { value: 'slide', label: 'Slide' },
+                        { value: 'highlight', label: 'Highlight' }
+                      ].map((effect) => (
+                        <button
+                          key={effect.value}
+                          type="button"
+                          onClick={() => setWidget(prev => ({
+                            ...prev,
+                            listSettings: { ...prev.listSettings, hoverEffect: effect.value }
+                          }))}
+                          className={`p-2 text-sm border rounded-lg transition-all ${
+                            widget.listSettings.hoverEffect === effect.value
+                              ? 'border-primary bg-primary/5 text-primary'
+                              : 'border-gray-200 hover:border-gray-300'
+                          }`}
+                        >
+                          {effect.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 mb-2 block">Animation</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { value: 'none', label: 'None' },
+                        { value: 'slideIn', label: 'Slide In' },
+                        { value: 'fadeIn', label: 'Fade In' },
+                        { value: 'cascade', label: 'Cascade' }
+                      ].map((anim) => (
+                        <button
+                          key={anim.value}
+                          type="button"
+                          onClick={() => setWidget(prev => ({
+                            ...prev,
+                            listSettings: { ...prev.listSettings, animation: anim.value }
+                          }))}
+                          className={`p-2 text-sm border rounded-lg transition-all ${
+                            widget.listSettings.animation === anim.value
+                              ? 'border-primary bg-primary/5 text-primary'
+                              : 'border-gray-200 hover:border-gray-300'
+                          }`}
+                        >
+                          {anim.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          )}
+
+          {/* Masonry Layout Customization Settings */}
+          {widget.layout === 'masonry' && (
+            <Card>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Masonry Settings</h3>
+              <div className="space-y-6">
+                {/* Column Settings */}
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-sm font-medium text-gray-900 mb-2 block">Columns</label>
+                    <div className="grid grid-cols-4 gap-2">
+                      {['auto', '2', '3', '4', '5'].map((cols) => (
+                        <button
+                          key={cols}
+                          type="button"
+                          onClick={() => setWidget(prev => ({
+                            ...prev,
+                            masonrySettings: { ...prev.masonrySettings, columns: cols }
+                          }))}
+                          className={`p-2 text-sm border rounded-lg transition-all ${
+                            widget.masonrySettings.columns === cols
+                              ? 'border-primary bg-primary/5 text-primary'
+                              : 'border-gray-200 hover:border-gray-300'
+                          }`}
+                        >
+                          {cols === 'auto' ? 'Auto' : `${cols} Col`}
+                        </button>
+                      ))}
+                    </div>
+                    <p className="text-xs text-gray-600 mt-1">Auto adjusts based on screen size</p>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-gray-900 mb-2 block">Gap Size</label>
+                    <div className="grid grid-cols-5 gap-2">
+                      {[
+                        { value: 'xs', label: 'XS' },
+                        { value: 'sm', label: 'SM' },
+                        { value: 'md', label: 'MD' },
+                        { value: 'lg', label: 'LG' },
+                        { value: 'xl', label: 'XL' }
+                      ].map((gap) => (
+                        <button
+                          key={gap.value}
+                          type="button"
+                          onClick={() => setWidget(prev => ({
+                            ...prev,
+                            masonrySettings: { ...prev.masonrySettings, gap: gap.value }
+                          }))}
+                          className={`p-2 text-sm border rounded-lg transition-all ${
+                            widget.masonrySettings.gap === gap.value
+                              ? 'border-primary bg-primary/5 text-primary'
+                              : 'border-gray-200 hover:border-gray-300'
+                          }`}
+                        >
+                          {gap.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <Input
+                      label="Minimum Item Height (px)"
+                      type="number"
+                      value={widget.masonrySettings.minItemHeight}
+                      onChange={(e) => setWidget(prev => ({
+                        ...prev,
+                        masonrySettings: {
+                          ...prev.masonrySettings,
+                          minItemHeight: parseInt(e.target.value) || 200
+                        }
+                      }))}
+                      min="100"
+                      max="500"
+                      step="50"
+                      placeholder="200"
+                    />
+                    <p className="text-xs text-gray-600 mt-1">Minimum height for masonry items</p>
+                  </div>
+                </div>
+
+                {/* Layout Options */}
+                <div className="space-y-4">
+                  <h4 className="text-sm font-medium text-gray-900">Layout Options</h4>
+                  
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 mb-2 block">Break Inside</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { value: 'auto', label: 'Auto' },
+                        { value: 'avoid', label: 'Avoid' },
+                        { value: 'avoid-page', label: 'Avoid Page' },
+                        { value: 'avoid-column', label: 'Avoid Column' }
+                      ].map((breakVal) => (
+                        <button
+                          key={breakVal.value}
+                          type="button"
+                          onClick={() => setWidget(prev => ({
+                            ...prev,
+                            masonrySettings: { ...prev.masonrySettings, breakInside: breakVal.value }
+                          }))}
+                          className={`p-2 text-sm border rounded-lg transition-all ${
+                            widget.masonrySettings.breakInside === breakVal.value
+                              ? 'border-primary bg-primary/5 text-primary'
+                              : 'border-gray-200 hover:border-gray-300'
+                          }`}
+                        >
+                          {breakVal.label}
+                        </button>
+                      ))}
+                    </div>
+                    <p className="text-xs text-gray-600 mt-1">Controls how items break across columns</p>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <label className="text-sm font-medium text-gray-700">Balance Height</label>
+                      <p className="text-xs text-gray-600">Try to balance column heights</p>
+                    </div>
+                    <Checkbox
+                      checked={widget.masonrySettings.balanceHeight}
+                      onChange={(e) => setWidget(prev => ({
+                        ...prev,
+                        masonrySettings: {
+                          ...prev.masonrySettings,
+                          balanceHeight: e.target.checked
+                        }
+                      }))}
+                    />
+                  </div>
+                </div>
+
+                {/* Visual Effects */}
+                <div className="space-y-4">
+                  <h4 className="text-sm font-medium text-gray-900">Visual Effects</h4>
+                  
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 mb-2 block">Animation</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { value: 'none', label: 'None' },
+                        { value: 'stagger', label: 'Stagger' },
+                        { value: 'cascade', label: 'Cascade' },
+                        { value: 'wave', label: 'Wave' }
+                      ].map((anim) => (
+                        <button
+                          key={anim.value}
+                          type="button"
+                          onClick={() => setWidget(prev => ({
+                            ...prev,
+                            masonrySettings: { ...prev.masonrySettings, animation: anim.value }
+                          }))}
+                          className={`p-2 text-sm border rounded-lg transition-all ${
+                            widget.masonrySettings.animation === anim.value
+                              ? 'border-primary bg-primary/5 text-primary'
+                              : 'border-gray-200 hover:border-gray-300'
+                          }`}
+                        >
+                          {anim.label}
+                        </button>
+                      ))}
                     </div>
                   </div>
                 </div>

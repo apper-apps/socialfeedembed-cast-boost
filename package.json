@@ -22,7 +22,7 @@
     "react-router-dom": "^6.28.0",
     "react-toastify": "^11.0.5",
     "swiper": "^11.1.14"
-  },
+},
   "devDependencies": {
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",

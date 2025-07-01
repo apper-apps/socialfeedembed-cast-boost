@@ -143,14 +143,20 @@ return (
 {/* Widget Content */}
       <div className={`${getContentClasses()} ${getMaxHeightClasses()} overflow-y-auto overflow-x-hidden`}>
         {displayPosts.length > 0 ? (
-          widget.layout === 'slider' ? (
+widget.layout === 'slider' ? (
             <Swiper
               modules={[Navigation, Pagination, Autoplay]}
               spaceBetween={16}
               slidesPerView={1}
-              navigation
-              pagination={{ clickable: true }}
-              autoplay={{ delay: 3000, disableOnInteraction: false }}
+              navigation={widget.sliderSettings?.navigation !== false}
+              pagination={widget.sliderSettings?.pagination !== false ? { clickable: true } : false}
+              autoplay={widget.sliderSettings?.autoplay !== false ? { 
+                delay: widget.sliderSettings?.autoplayDelay || 3000, 
+                disableOnInteraction: false 
+              } : false}
+              speed={widget.sliderSettings?.speed || 300}
+              allowTouchMove={widget.sliderSettings?.dragControl !== false}
+              loop={widget.sliderSettings?.loop !== false}
               breakpoints={{
                 640: { slidesPerView: 1 },
                 768: { slidesPerView: 2 },

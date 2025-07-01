@@ -27,14 +27,23 @@ export default function WidgetBuilder() {
   const isEditing = Boolean(id);
   const templateId = searchParams.get('template');
   
-  const [widget, setWidget] = useState({
+const [widget, setWidget] = useState({
     name: "",
     platforms: [],
     filters: [],
     layout: 'grid',
     theme: 'minimal',
     maxPosts: 10,
-    sortBy: 'newest'
+    sortBy: 'newest',
+    sliderSettings: {
+      autoplay: true,
+      autoplayDelay: 3000,
+      speed: 300,
+      dragControl: true,
+      navigation: true,
+      pagination: true,
+      loop: true
+    }
   });
   const [posts, setPosts] = useState([]);
   const [showEmbedModal, setShowEmbedModal] = useState(false);
@@ -403,9 +412,154 @@ useEffect(() => {
                   options={themeOptions}
                   posts={posts.slice(0, 3)}
                 />
-              </div>
+</div>
             </div>
           </Card>
+
+          {/* Slider Customization Settings */}
+          {widget.layout === 'slider' && (
+            <Card>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Slider Settings</h3>
+              <div className="space-y-6">
+                {/* Autoplay Settings */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <label className="text-sm font-medium text-gray-900">Autoplay</label>
+                      <p className="text-xs text-gray-600">Automatically advance slides</p>
+                    </div>
+                    <Checkbox
+                      checked={widget.sliderSettings.autoplay}
+                      onChange={(e) => setWidget(prev => ({
+                        ...prev,
+                        sliderSettings: {
+                          ...prev.sliderSettings,
+                          autoplay: e.target.checked
+                        }
+                      }))}
+                    />
+                  </div>
+                  
+                  {widget.sliderSettings.autoplay && (
+                    <div>
+                      <Input
+                        label="Autoplay Delay (ms)"
+                        type="number"
+                        value={widget.sliderSettings.autoplayDelay}
+                        onChange={(e) => setWidget(prev => ({
+                          ...prev,
+                          sliderSettings: {
+                            ...prev.sliderSettings,
+                            autoplayDelay: parseInt(e.target.value) || 3000
+                          }
+                        }))}
+                        min="1000"
+                        max="10000"
+                        step="500"
+                        placeholder="3000"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {/* Animation Speed */}
+                <div>
+                  <Input
+                    label="Animation Speed (ms)"
+                    type="number"
+                    value={widget.sliderSettings.speed}
+                    onChange={(e) => setWidget(prev => ({
+                      ...prev,
+                      sliderSettings: {
+                        ...prev.sliderSettings,
+                        speed: parseInt(e.target.value) || 300
+                      }
+                    }))}
+                    min="100"
+                    max="2000"
+                    step="100"
+                    placeholder="300"
+                  />
+                  <p className="text-xs text-gray-600 mt-1">How fast slides transition (lower = faster)</p>
+                </div>
+
+                {/* Control Options */}
+                <div className="space-y-4">
+                  <h4 className="text-sm font-medium text-gray-900">Controls</h4>
+                  
+                  <div className="grid grid-cols-1 gap-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <label className="text-sm font-medium text-gray-700">Drag to Navigate</label>
+                        <p className="text-xs text-gray-600">Allow touch/mouse dragging</p>
+                      </div>
+                      <Checkbox
+                        checked={widget.sliderSettings.dragControl}
+                        onChange={(e) => setWidget(prev => ({
+                          ...prev,
+                          sliderSettings: {
+                            ...prev.sliderSettings,
+                            dragControl: e.target.checked
+                          }
+                        }))}
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <label className="text-sm font-medium text-gray-700">Navigation Arrows</label>
+                        <p className="text-xs text-gray-600">Show previous/next buttons</p>
+                      </div>
+                      <Checkbox
+                        checked={widget.sliderSettings.navigation}
+                        onChange={(e) => setWidget(prev => ({
+                          ...prev,
+                          sliderSettings: {
+                            ...prev.sliderSettings,
+                            navigation: e.target.checked
+                          }
+                        }))}
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <label className="text-sm font-medium text-gray-700">Pagination Dots</label>
+                        <p className="text-xs text-gray-600">Show slide indicators</p>
+                      </div>
+                      <Checkbox
+                        checked={widget.sliderSettings.pagination}
+                        onChange={(e) => setWidget(prev => ({
+                          ...prev,
+                          sliderSettings: {
+                            ...prev.sliderSettings,
+                            pagination: e.target.checked
+                          }
+                        }))}
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <label className="text-sm font-medium text-gray-700">Infinite Loop</label>
+                        <p className="text-xs text-gray-600">Continuously loop through slides</p>
+                      </div>
+                      <Checkbox
+                        checked={widget.sliderSettings.loop}
+                        onChange={(e) => setWidget(prev => ({
+                          ...prev,
+                          sliderSettings: {
+                            ...prev.sliderSettings,
+                            loop: e.target.checked
+                          }
+                        }))}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          )}
         </div>
 
         {/* Preview Panel */}

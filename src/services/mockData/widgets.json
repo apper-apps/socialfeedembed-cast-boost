@@ -8,9 +8,18 @@
       { "id": "2", "type": "username", "value": "ourcompany", "platform": "twitter", "mode": "include" },
       { "id": "3", "type": "keyword", "value": "spam", "platform": "all", "mode": "exclude" }
     ],
-    "layout": "grid",
+"layout": "grid",
     "theme": "light",
     "maxPosts": 20,
+    "sliderSettings": {
+      "autoplay": true,
+      "autoplayDelay": 3000,
+      "speed": 300,
+      "dragControl": true,
+      "navigation": true,
+      "pagination": true,
+      "loop": true
+    },
     "embedCode": "<iframe src=\"https://socialfeedembed.com/embed?id=1\" width=\"100%\" height=\"400px\"></iframe>",
     "createdAt": "2023-12-01T10:00:00Z",
     "updatedAt": "2023-12-15T14:30:00Z"
@@ -24,9 +33,18 @@
       { "id": "5", "type": "keyword", "value": "conference", "platform": "twitter", "mode": "include" },
       { "id": "6", "type": "hashtag", "value": "cancelled", "platform": "all", "mode": "exclude" }
     ],
-    "layout": "masonry",
+"layout": "masonry",
     "theme": "light",
     "maxPosts": 15,
+    "sliderSettings": {
+      "autoplay": false,
+      "autoplayDelay": 4000,
+      "speed": 500,
+      "dragControl": true,
+      "navigation": true,
+      "pagination": false,
+      "loop": false
+    },
     "embedCode": "<iframe src=\"https://socialfeedembed.com/embed?id=2\" width=\"100%\" height=\"500px\"></iframe>",
     "createdAt": "2023-11-20T09:15:00Z",
     "updatedAt": "2023-12-10T11:45:00Z"
@@ -40,9 +58,18 @@
       { "id": "8", "type": "hashtag", "value": "launch", "platform": "instagram", "mode": "include" },
       { "id": "9", "type": "keyword", "value": "delay", "platform": "all", "mode": "exclude" }
     ],
-    "layout": "list",
+"layout": "list",
     "theme": "dark",
     "maxPosts": 10,
+    "sliderSettings": {
+      "autoplay": true,
+      "autoplayDelay": 2500,
+      "speed": 200,
+      "dragControl": false,
+      "navigation": false,
+      "pagination": true,
+      "loop": true
+    },
     "embedCode": "<iframe src=\"https://socialfeedembed.com/embed?id=3\" width=\"100%\" height=\"600px\"></iframe>",
     "createdAt": "2023-12-05T16:20:00Z",
     "updatedAt": "2023-12-12T08:10:00Z"
@@ -56,9 +83,18 @@
       { "id": "11", "type": "keyword", "value": "review", "platform": "twitter", "mode": "include" },
       { "id": "12", "type": "keyword", "value": "complaint", "platform": "all", "mode": "exclude" }
     ],
-    "layout": "grid",
+"layout": "grid",
     "theme": "light",
     "maxPosts": 25,
+    "sliderSettings": {
+      "autoplay": true,
+      "autoplayDelay": 5000,
+      "speed": 400,
+      "dragControl": true,
+      "navigation": true,
+      "pagination": true,
+      "loop": false
+    },
     "embedCode": "<iframe src=\"https://socialfeedembed.com/embed?id=4\" width=\"100%\" height=\"450px\"></iframe>",
     "createdAt": "2023-11-28T13:00:00Z",
     "updatedAt": "2023-12-08T15:30:00Z"
@@ -72,9 +108,18 @@
       { "id": "14", "type": "keyword", "value": "news", "platform": "twitter", "mode": "include" },
       { "id": "15", "type": "hashtag", "value": "rumor", "platform": "all", "mode": "exclude" }
     ],
-    "layout": "list",
+"layout": "list",
     "theme": "light",
     "maxPosts": 30,
+    "sliderSettings": {
+      "autoplay": true,
+      "autoplayDelay": 3500,
+      "speed": 600,
+      "dragControl": true,
+      "navigation": false,
+      "pagination": true,
+      "loop": true
+    },
     "embedCode": "<iframe src=\"https://socialfeedembed.com/embed?id=5\" width=\"100%\" height=\"500px\"></iframe>",
     "createdAt": "2023-12-03T11:30:00Z",
     "updatedAt": "2023-12-14T09:45:00Z"

@@ -22,11 +22,11 @@ const FilterInput = ({ filters = [], onFiltersChange, selectedPlatforms = [], cl
     { value: 'exclude', label: 'Exclude' }
   ]
 
-  const platformOptions = [
+const platformOptions = [
     { value: '', label: 'All Platforms' },
     ...selectedPlatforms.map(platform => ({
       value: platform,
-      label: platform.charAt(0).toUpperCase() + platform.slice(1)
+      label: platform === 'twitter' ? 'X' : platform.charAt(0).toUpperCase() + platform.slice(1)
     }))
   ]
 

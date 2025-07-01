@@ -21,8 +21,8 @@ const PostCard = ({
     showPlatformBadge: true
   }
 }) => {
-  const platformColors = {
-    twitter: 'twitter',
+const platformColors = {
+    twitter: 'x',
     instagram: 'instagram',
     facebook: 'facebook',
     tiktok: 'tiktok',
@@ -30,8 +30,8 @@ const PostCard = ({
     linkedin: 'linkedin'
   }
 
-  const platformIcons = {
-    twitter: 'Twitter',
+const platformIcons = {
+    twitter: 'X',
     instagram: 'Instagram',
     facebook: 'Facebook',
     tiktok: 'Music',

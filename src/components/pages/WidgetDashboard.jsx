@@ -60,9 +60,9 @@ try {
     navigate(`/edit-widget/${widgetId}`)
   }
 
-  const getPlatformColor = (platform) => {
+const getPlatformColor = (platform) => {
     const colors = {
-      twitter: 'twitter',
+      twitter: 'x',
       instagram: 'instagram',
       facebook: 'facebook',
       tiktok: 'tiktok',
@@ -72,9 +72,9 @@ try {
     return colors[platform] || 'primary'
   }
 
-  const getPlatformIcon = (platform) => {
+const getPlatformIcon = (platform) => {
     const icons = {
-      twitter: 'Twitter',
+      twitter: 'X',
       instagram: 'Instagram',
       facebook: 'Facebook',
       tiktok: 'Music',

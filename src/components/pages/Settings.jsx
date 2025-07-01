@@ -309,15 +309,14 @@ const [settings, setSettings] = useState({
             <h3 className="text-lg font-semibold text-gray-900">API Configuration</h3>
           </div>
           
-          <div className="space-y-4">
+<div className="space-y-4">
             <Input
-              label="Twitter API Key"
+              label="X API Key"
               value={settings.api.twitterKey}
               onChange={(e) => handleApiChange('twitterKey', e.target.value)}
-              placeholder="Enter Twitter API key"
+              placeholder="Enter X API key"
               type="password"
             />
-            
             <Input
               label="Instagram API Key"
               value={settings.api.instagramKey}

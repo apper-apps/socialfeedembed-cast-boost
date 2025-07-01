@@ -1,0 +1,24 @@
+{
+  "general": {
+    "siteName": "My Awesome Website",
+    "siteUrl": "https://myawesomewebsite.com",
+    "defaultTheme": "light",
+    "defaultLayout": "grid",
+    "maxPostsPerWidget": 50
+  },
+  "api": {
+    "twitterKey": "",
+    "instagramKey": "",
+    "facebookKey": "",
+    "youtubeKey": "",
+    "linkedinKey": "",
+    "enableCaching": true,
+    "cacheExpiration": 3600
+  },
+  "notifications": {
+    "emailNotifications": true,
+    "widgetUpdates": true,
+    "systemAlerts": true,
+    "weeklyReports": false
+  }
+}

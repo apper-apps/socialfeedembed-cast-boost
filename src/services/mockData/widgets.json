@@ -1,0 +1,77 @@
+[
+  {
+    "Id": 1,
+    "name": "Company Social Feed",
+    "platforms": ["twitter", "instagram", "linkedin"],
+    "filters": [
+      { "id": "1", "type": "hashtag", "value": "company", "platform": "all" },
+      { "id": "2", "type": "username", "value": "ourcompany", "platform": "twitter" }
+    ],
+    "layout": "grid",
+    "theme": "light",
+    "maxPosts": 20,
+    "embedCode": "<iframe src=\"https://socialfeedembed.com/embed?id=1\" width=\"100%\" height=\"400px\"></iframe>",
+    "createdAt": "2023-12-01T10:00:00Z",
+    "updatedAt": "2023-12-15T14:30:00Z"
+  },
+  {
+    "Id": 2,
+    "name": "Event Highlights",
+    "platforms": ["twitter", "instagram", "facebook"],
+    "filters": [
+      { "id": "3", "type": "hashtag", "value": "event2023", "platform": "all" },
+      { "id": "4", "type": "keyword", "value": "conference", "platform": "twitter" }
+    ],
+    "layout": "masonry",
+    "theme": "light",
+    "maxPosts": 15,
+    "embedCode": "<iframe src=\"https://socialfeedembed.com/embed?id=2\" width=\"100%\" height=\"500px\"></iframe>",
+    "createdAt": "2023-11-20T09:15:00Z",
+    "updatedAt": "2023-12-10T11:45:00Z"
+  },
+  {
+    "Id": 3,
+    "name": "Product Launch",
+    "platforms": ["instagram", "facebook", "youtube"],
+    "filters": [
+      { "id": "5", "type": "hashtag", "value": "newproduct", "platform": "all" },
+      { "id": "6", "type": "hashtag", "value": "launch", "platform": "instagram" }
+    ],
+    "layout": "list",
+    "theme": "dark",
+    "maxPosts": 10,
+    "embedCode": "<iframe src=\"https://socialfeedembed.com/embed?id=3\" width=\"100%\" height=\"600px\"></iframe>",
+    "createdAt": "2023-12-05T16:20:00Z",
+    "updatedAt": "2023-12-12T08:10:00Z"
+  },
+  {
+    "Id": 4,
+    "name": "Customer Stories",
+    "platforms": ["twitter", "linkedin"],
+    "filters": [
+      { "id": "7", "type": "hashtag", "value": "testimonial", "platform": "all" },
+      { "id": "8", "type": "keyword", "value": "review", "platform": "twitter" }
+    ],
+    "layout": "grid",
+    "theme": "light",
+    "maxPosts": 25,
+    "embedCode": "<iframe src=\"https://socialfeedembed.com/embed?id=4\" width=\"100%\" height=\"450px\"></iframe>",
+    "createdAt": "2023-11-28T13:00:00Z",
+    "updatedAt": "2023-12-08T15:30:00Z"
+  },
+  {
+    "Id": 5,
+    "name": "Industry News",
+    "platforms": ["twitter", "linkedin", "facebook"],
+    "filters": [
+      { "id": "9", "type": "hashtag", "value": "industry", "platform": "all" },
+      { "id": "10", "type": "keyword", "value": "news", "platform": "twitter" }
+    ],
+    "layout": "list",
+    "theme": "light",
+    "maxPosts": 30,
+    "embedCode": "<iframe src=\"https://socialfeedembed.com/embed?id=5\" width=\"100%\" height=\"500px\"></iframe>",
+    "createdAt": "2023-12-03T11:30:00Z",
+    "updatedAt": "2023-12-14T09:45:00Z"
+  }
+]

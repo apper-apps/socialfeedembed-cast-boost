@@ -51,9 +51,8 @@ const FilterInput = ({ filters = [], onFiltersChange, selectedPlatforms = [], cl
   return (
     <div className={`${className}`}>
       <h3 className="text-lg font-semibold text-gray-900 mb-4">Content Filters</h3>
-      
-      <div className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Select
             label="Filter Type"
             value={filterType}
@@ -64,9 +63,9 @@ const FilterInput = ({ filters = [], onFiltersChange, selectedPlatforms = [], cl
             label="Platform"
             value={filterPlatform}
             onChange={(e) => setFilterPlatform(e.target.value)}
-            options={platformOptions}
+options={platformOptions}
           />
-          <div className="flex items-end">
+          <div className="flex items-end md:col-span-2">
             <Input
               label="Filter Value"
               value={filterValue}

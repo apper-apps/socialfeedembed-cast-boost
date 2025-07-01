@@ -57,9 +57,10 @@ ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
             };
             onChange?.(syntheticEvent);
           } : undefined}
-        >
+>
           {label}
         </label>
+      )}
     </div>
   )
 }

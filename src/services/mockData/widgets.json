@@ -3,9 +3,10 @@
     "Id": 1,
     "name": "Company Social Feed",
     "platforms": ["twitter", "instagram", "linkedin"],
-    "filters": [
-      { "id": "1", "type": "hashtag", "value": "company", "platform": "all" },
-      { "id": "2", "type": "username", "value": "ourcompany", "platform": "twitter" }
+"filters": [
+      { "id": "1", "type": "hashtag", "value": "company", "platform": "all", "mode": "include" },
+      { "id": "2", "type": "username", "value": "ourcompany", "platform": "twitter", "mode": "include" },
+      { "id": "3", "type": "keyword", "value": "spam", "platform": "all", "mode": "exclude" }
     ],
     "layout": "grid",
     "theme": "light",
@@ -18,9 +19,10 @@
     "Id": 2,
     "name": "Event Highlights",
     "platforms": ["twitter", "instagram", "facebook"],
-    "filters": [
-      { "id": "3", "type": "hashtag", "value": "event2023", "platform": "all" },
-      { "id": "4", "type": "keyword", "value": "conference", "platform": "twitter" }
+"filters": [
+      { "id": "4", "type": "hashtag", "value": "event2023", "platform": "all", "mode": "include" },
+      { "id": "5", "type": "keyword", "value": "conference", "platform": "twitter", "mode": "include" },
+      { "id": "6", "type": "hashtag", "value": "cancelled", "platform": "all", "mode": "exclude" }
     ],
     "layout": "masonry",
     "theme": "light",
@@ -33,9 +35,10 @@
     "Id": 3,
     "name": "Product Launch",
     "platforms": ["instagram", "facebook", "youtube"],
-    "filters": [
-      { "id": "5", "type": "hashtag", "value": "newproduct", "platform": "all" },
-      { "id": "6", "type": "hashtag", "value": "launch", "platform": "instagram" }
+"filters": [
+      { "id": "7", "type": "hashtag", "value": "newproduct", "platform": "all", "mode": "include" },
+      { "id": "8", "type": "hashtag", "value": "launch", "platform": "instagram", "mode": "include" },
+      { "id": "9", "type": "keyword", "value": "delay", "platform": "all", "mode": "exclude" }
     ],
     "layout": "list",
     "theme": "dark",
@@ -48,9 +51,10 @@
     "Id": 4,
     "name": "Customer Stories",
     "platforms": ["twitter", "linkedin"],
-    "filters": [
-      { "id": "7", "type": "hashtag", "value": "testimonial", "platform": "all" },
-      { "id": "8", "type": "keyword", "value": "review", "platform": "twitter" }
+"filters": [
+      { "id": "10", "type": "hashtag", "value": "testimonial", "platform": "all", "mode": "include" },
+      { "id": "11", "type": "keyword", "value": "review", "platform": "twitter", "mode": "include" },
+      { "id": "12", "type": "keyword", "value": "complaint", "platform": "all", "mode": "exclude" }
     ],
     "layout": "grid",
     "theme": "light",
@@ -63,9 +67,10 @@
     "Id": 5,
     "name": "Industry News",
     "platforms": ["twitter", "linkedin", "facebook"],
-    "filters": [
-      { "id": "9", "type": "hashtag", "value": "industry", "platform": "all" },
-      { "id": "10", "type": "keyword", "value": "news", "platform": "twitter" }
+"filters": [
+      { "id": "13", "type": "hashtag", "value": "industry", "platform": "all", "mode": "include" },
+      { "id": "14", "type": "keyword", "value": "news", "platform": "twitter", "mode": "include" },
+      { "id": "15", "type": "hashtag", "value": "rumor", "platform": "all", "mode": "exclude" }
     ],
     "layout": "list",
     "theme": "light",

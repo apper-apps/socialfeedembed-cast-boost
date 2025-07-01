@@ -102,24 +102,49 @@ const maxPostsOptions = [
           widget.platforms.includes(post.platform)
         )
       }
-
-      if (widget.filters.length > 0) {
-        filteredPosts = filteredPosts.filter(post => {
-          return widget.filters.some(filter => {
-            const matchesPlatform = filter.platform === 'all' || filter.platform === post.platform
-            
-            switch (filter.type) {
-              case 'hashtag':
-                return matchesPlatform && post.content.toLowerCase().includes(`#${filter.value.toLowerCase()}`)
-              case 'username':
-                return matchesPlatform && post.author.toLowerCase().includes(filter.value.toLowerCase())
-              case 'keyword':
-                return matchesPlatform && post.content.toLowerCase().includes(filter.value.toLowerCase())
-              default:
-                return false
-            }
+if (widget.filters.length > 0) {
+        const includeFilters = widget.filters.filter(filter => !filter.mode || filter.mode === 'include')
+        const excludeFilters = widget.filters.filter(filter => filter.mode === 'exclude')
+        
+        // Apply include filters first
+        if (includeFilters.length > 0) {
+          filteredPosts = filteredPosts.filter(post => {
+            return includeFilters.some(filter => {
+              const matchesPlatform = filter.platform === 'all' || filter.platform === post.platform
+              
+              switch (filter.type) {
+                case 'hashtag':
+                  return matchesPlatform && post.content.toLowerCase().includes(`#${filter.value.toLowerCase()}`)
+                case 'username':
+                  return matchesPlatform && post.author.toLowerCase().includes(filter.value.toLowerCase())
+                case 'keyword':
+                  return matchesPlatform && post.content.toLowerCase().includes(filter.value.toLowerCase())
+                default:
+                  return false
+              }
+            })
           })
-        })
+        }
+        
+        // Apply exclude filters
+        if (excludeFilters.length > 0) {
+          filteredPosts = filteredPosts.filter(post => {
+            return !excludeFilters.some(filter => {
+              const matchesPlatform = filter.platform === 'all' || filter.platform === post.platform
+              
+              switch (filter.type) {
+                case 'hashtag':
+                  return matchesPlatform && post.content.toLowerCase().includes(`#${filter.value.toLowerCase()}`)
+                case 'username':
+                  return matchesPlatform && post.author.toLowerCase().includes(filter.value.toLowerCase())
+                case 'keyword':
+                  return matchesPlatform && post.content.toLowerCase().includes(filter.value.toLowerCase())
+                default:
+                  return false
+              }
+            })
+          })
+        }
       }
 
       setPosts(filteredPosts)

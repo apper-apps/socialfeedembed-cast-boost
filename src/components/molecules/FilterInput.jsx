@@ -9,11 +9,17 @@ const FilterInput = ({ filters = [], onFiltersChange, selectedPlatforms = [], cl
   const [filterType, setFilterType] = useState('hashtag')
   const [filterValue, setFilterValue] = useState('')
   const [filterPlatform, setFilterPlatform] = useState('')
+  const [filterMode, setFilterMode] = useState('include')
 
   const filterTypes = [
     { value: 'hashtag', label: 'Hashtag' },
     { value: 'username', label: 'Username' },
     { value: 'keyword', label: 'Keyword' }
+  ]
+
+  const filterModes = [
+    { value: 'include', label: 'Include' },
+    { value: 'exclude', label: 'Exclude' }
   ]
 
   const platformOptions = [
@@ -24,14 +30,15 @@ const FilterInput = ({ filters = [], onFiltersChange, selectedPlatforms = [], cl
     }))
   ]
 
-  const handleAddFilter = () => {
+const handleAddFilter = () => {
     if (!filterValue.trim()) return
 
     const newFilter = {
       id: Date.now().toString(),
       type: filterType,
       value: filterValue.trim(),
-      platform: filterPlatform || 'all'
+      platform: filterPlatform || 'all',
+      mode: filterMode
     }
 
     onFiltersChange([...filters, newFilter])
@@ -49,15 +56,21 @@ const FilterInput = ({ filters = [], onFiltersChange, selectedPlatforms = [], cl
   }
 
   return (
-    <div className={`${className}`}>
+<div className={`${className}`}>
       <h3 className="text-lg font-semibold text-gray-900 mb-4">Content Filters</h3>
 <div className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           <Select
             label="Filter Type"
             value={filterType}
             onChange={(e) => setFilterType(e.target.value)}
             options={filterTypes}
+          />
+          <Select
+            label="Mode"
+            value={filterMode}
+            onChange={(e) => setFilterMode(e.target.value)}
+            options={filterModes}
           />
           <Select
             label="Platform"
@@ -86,18 +99,18 @@ options={platformOptions}
           </div>
         </div>
 
-        {filters.length > 0 && (
+{filters.length > 0 && (
           <div className="space-y-2">
             <h4 className="text-sm font-medium text-gray-700">Active Filters</h4>
             <div className="flex flex-wrap gap-2">
               {filters.map((filter) => (
                 <Badge
                   key={filter.id}
-                  variant="primary"
+                  variant={filter.mode === 'exclude' ? 'danger' : 'primary'}
                   className="flex items-center space-x-2"
                 >
                   <span className="text-xs">
-                    {filter.type}: {filter.value}
+                    {filter.mode === 'exclude' ? 'Exclude' : 'Include'} {filter.type}: {filter.value}
                     {filter.platform !== 'all' && ` (${filter.platform})`}
                   </span>
                   <button

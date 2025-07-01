@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react'
-import { toast } from 'react-toastify'
-import Button from '@/components/atoms/Button'
-import Input from '@/components/atoms/Input'
-import Select from '@/components/atoms/Select'
-import Card from '@/components/atoms/Card'
-import Checkbox from '@/components/atoms/Checkbox'
-import Loading from '@/components/ui/Loading'
-import ApperIcon from '@/components/ApperIcon'
-import { settingsService } from '@/services/api/settingsService'
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import ApperIcon from "@/components/ApperIcon";
+import Layout from "@/components/organisms/Layout";
+import Card from "@/components/atoms/Card";
+import Select from "@/components/atoms/Select";
+import Input from "@/components/atoms/Input";
+import Button from "@/components/atoms/Button";
+import Checkbox from "@/components/atoms/Checkbox";
+import Loading from "@/components/ui/Loading";
+import { settingsService } from "@/services/api/settingsService";
 
 const Settings = () => {
-  const [settings, setSettings] = useState({
+const [settings, setSettings] = useState({
     general: {
       siteName: '',
       siteUrl: '',
@@ -32,6 +33,34 @@ const Settings = () => {
       widgetUpdates: true,
       systemAlerts: true,
       weeklyReports: false
+    },
+    style: {
+      colors: {
+        primary: '#3b82f6',
+        secondary: '#8b5cf6',
+        accent: '#06b6d4',
+        background: '#ffffff',
+        surface: '#f8fafc',
+        text: '#1f2937',
+        textSecondary: '#6b7280',
+        border: '#e5e7eb'
+      },
+      typography: {
+        fontFamily: 'Inter',
+        fontSize: 16,
+        fontWeight: 400,
+        lineHeight: 1.5
+      },
+      spacing: {
+        padding: 16,
+        margin: 16,
+        gap: 8
+      },
+      borders: {
+        width: 1,
+        radius: 8,
+        style: 'solid'
+      }
     }
   })
   const [loading, setLoading] = useState(true)
@@ -93,6 +122,19 @@ const Settings = () => {
       notifications: {
         ...prev.notifications,
         [field]: value
+      }
+    }))
+}
+
+  const handleStyleChange = (field, value) => {
+    setSettings(prev => ({
+      ...prev,
+      style: {
+        ...prev.style,
+        [field]: {
+          ...prev.style[field],
+          ...value
+        }
       }
     }))
   }
@@ -478,6 +520,284 @@ const Settings = () => {
             </div>
           </div>
         </Card>
+</div>
+
+      {/* Advanced Style Editor */}
+      <div className="mt-8">
+        <Card>
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="p-2 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-lg">
+              <ApperIcon name="Paintbrush" className="text-indigo-600" size={20} />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900">Style Customization</h3>
+              <p className="text-sm text-gray-600">Customize colors, fonts, spacing, and borders to match your branding</p>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Colors Section */}
+            <div>
+              <h4 className="font-medium text-gray-900 mb-4 flex items-center">
+                <ApperIcon name="Palette" className="text-gray-600 mr-2" size={16} />
+                Colors
+              </h4>
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <Select
+                    label="Primary Color"
+                    value={settings.style.colors.primary}
+                    onChange={(color) => handleStyleChange('colors', { primary: color })}
+                    colorPicker={true}
+                  />
+                  <Select
+                    label="Secondary Color"
+                    value={settings.style.colors.secondary}
+                    onChange={(color) => handleStyleChange('colors', { secondary: color })}
+                    colorPicker={true}
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <Select
+                    label="Accent Color"
+                    value={settings.style.colors.accent}
+                    onChange={(color) => handleStyleChange('colors', { accent: color })}
+                    colorPicker={true}
+                  />
+                  <Select
+                    label="Background Color"
+                    value={settings.style.colors.background}
+                    onChange={(color) => handleStyleChange('colors', { background: color })}
+                    colorPicker={true}
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <Select
+                    label="Text Color"
+                    value={settings.style.colors.text}
+                    onChange={(color) => handleStyleChange('colors', { text: color })}
+                    colorPicker={true}
+                  />
+                  <Select
+                    label="Border Color"
+                    value={settings.style.colors.border}
+                    onChange={(color) => handleStyleChange('colors', { border: color })}
+                    colorPicker={true}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Typography Section */}
+            <div>
+              <h4 className="font-medium text-gray-900 mb-4 flex items-center">
+                <ApperIcon name="Type" className="text-gray-600 mr-2" size={16} />
+                Typography
+              </h4>
+              <div className="space-y-4">
+                <Select
+                  label="Font Family"
+                  value={settings.style.typography.fontFamily}
+                  onChange={(e) => handleStyleChange('typography', { fontFamily: e.target.value })}
+                  options={[
+                    { value: 'Inter', label: 'Inter' },
+                    { value: 'Roboto', label: 'Roboto' },
+                    { value: 'Open Sans', label: 'Open Sans' },
+                    { value: 'Lato', label: 'Lato' },
+                    { value: 'Montserrat', label: 'Montserrat' },
+                    { value: 'Poppins', label: 'Poppins' }
+                  ]}
+                />
+                <div className="grid grid-cols-2 gap-4">
+                  <Input
+                    label="Font Size (px)"
+                    type="range"
+                    min="12"
+                    max="24"
+                    value={settings.style.typography.fontSize}
+                    onChange={(e) => handleStyleChange('typography', { fontSize: parseInt(e.target.value) })}
+                    variant="slider"
+                  />
+                  <Input
+                    label="Font Weight"
+                    type="range"
+                    min="300"
+                    max="700"
+                    step="100"
+                    value={settings.style.typography.fontWeight}
+                    onChange={(e) => handleStyleChange('typography', { fontWeight: parseInt(e.target.value) })}
+                    variant="slider"
+                  />
+                </div>
+                <Input
+                  label="Line Height"
+                  type="range"
+                  min="1.2"
+                  max="2"
+                  step="0.1"
+                  value={settings.style.typography.lineHeight}
+                  onChange={(e) => handleStyleChange('typography', { lineHeight: parseFloat(e.target.value) })}
+                  variant="slider"
+                />
+              </div>
+            </div>
+
+            {/* Spacing Section */}
+            <div>
+              <h4 className="font-medium text-gray-900 mb-4 flex items-center">
+                <ApperIcon name="Move" className="text-gray-600 mr-2" size={16} />
+                Spacing
+              </h4>
+              <div className="space-y-4">
+                <div className="grid grid-cols-3 gap-4">
+                  <Input
+                    label="Padding (px)"
+                    type="range"
+                    min="8"
+                    max="32"
+                    value={settings.style.spacing.padding}
+                    onChange={(e) => handleStyleChange('spacing', { padding: parseInt(e.target.value) })}
+                    variant="slider"
+                  />
+                  <Input
+                    label="Margin (px)"
+                    type="range"
+                    min="8"
+                    max="32"
+                    value={settings.style.spacing.margin}
+                    onChange={(e) => handleStyleChange('spacing', { margin: parseInt(e.target.value) })}
+                    variant="slider"
+                  />
+                  <Input
+                    label="Gap (px)"
+                    type="range"
+                    min="4"
+                    max="24"
+                    value={settings.style.spacing.gap}
+                    onChange={(e) => handleStyleChange('spacing', { gap: parseInt(e.target.value) })}
+                    variant="slider"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Borders Section */}
+            <div>
+              <h4 className="font-medium text-gray-900 mb-4 flex items-center">
+                <ApperIcon name="Square" className="text-gray-600 mr-2" size={16} />
+                Borders
+              </h4>
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <Input
+                    label="Border Width (px)"
+                    type="range"
+                    min="0"
+                    max="8"
+                    value={settings.style.borders.width}
+                    onChange={(e) => handleStyleChange('borders', { width: parseInt(e.target.value) })}
+                    variant="slider"
+                  />
+                  <Input
+                    label="Border Radius (px)"
+                    type="range"
+                    min="0"
+                    max="24"
+                    value={settings.style.borders.radius}
+                    onChange={(e) => handleStyleChange('borders', { radius: parseInt(e.target.value) })}
+                    variant="slider"
+                  />
+                </div>
+                <Select
+                  label="Border Style"
+                  value={settings.style.borders.style}
+                  onChange={(e) => handleStyleChange('borders', { style: e.target.value })}
+                  options={[
+                    { value: 'solid', label: 'Solid' },
+                    { value: 'dashed', label: 'Dashed' },
+                    { value: 'dotted', label: 'Dotted' },
+                    { value: 'none', label: 'None' }
+                  ]}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Style Preview */}
+          <div className="mt-8 pt-6 border-t border-gray-200">
+            <h4 className="font-medium text-gray-900 mb-4 flex items-center">
+              <ApperIcon name="Eye" className="text-gray-600 mr-2" size={16} />
+              Live Preview
+            </h4>
+            <div 
+              className="p-6 rounded-lg border-2 transition-all duration-200"
+              style={{
+                backgroundColor: settings.style.colors.surface,
+                borderColor: settings.style.colors.border,
+                borderWidth: `${settings.style.borders.width}px`,
+                borderRadius: `${settings.style.borders.radius}px`,
+                borderStyle: settings.style.borders.style,
+                padding: `${settings.style.spacing.padding}px`,
+                margin: `${settings.style.spacing.margin}px 0`,
+                gap: `${settings.style.spacing.gap}px`,
+                fontFamily: settings.style.typography.fontFamily,
+                fontSize: `${settings.style.typography.fontSize}px`,
+                fontWeight: settings.style.typography.fontWeight,
+                lineHeight: settings.style.typography.lineHeight,
+                color: settings.style.colors.text
+              }}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h5 className="text-lg font-semibold">Widget Preview</h5>
+                <div 
+                  className="px-3 py-1 rounded-full text-sm font-medium text-white"
+                  style={{ backgroundColor: settings.style.colors.primary }}
+                >
+                  Primary
+                </div>
+              </div>
+              <p className="text-sm" style={{ color: settings.style.colors.textSecondary }}>
+                This is how your customized styles will appear in your widgets. 
+                Adjust the settings above to see real-time changes.
+              </p>
+              <div className="flex space-x-2 mt-4">
+                <div 
+                  className="px-4 py-2 rounded text-sm font-medium text-white"
+                  style={{ backgroundColor: settings.style.colors.secondary }}
+                >
+                  Secondary
+                </div>
+                <div 
+                  className="px-4 py-2 rounded text-sm font-medium text-white"
+                  style={{ backgroundColor: settings.style.colors.accent }}
+                >
+                  Accent
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Style Actions */}
+          <div className="mt-6 pt-6 border-t border-gray-200">
+            <div className="flex items-center justify-between">
+              <div className="space-y-2">
+                <h4 className="font-medium text-gray-900">Style Presets</h4>
+                <p className="text-sm text-gray-600">Save or load custom style configurations</p>
+              </div>
+              <div className="flex space-x-3">
+                <Button variant="secondary" size="sm" icon="RotateCcw">
+                  Reset to Default
+                </Button>
+                <Button variant="outline" size="sm" icon="Upload">
+                  Load Preset
+                </Button>
+                <Button variant="primary" size="sm" icon="Save">
+                  Save as Preset
+                </Button>
+              </div>
+            </div>
+          </div>
+</Card>
       </div>
     </div>
   )

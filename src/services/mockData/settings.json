@@ -20,5 +20,33 @@
     "widgetUpdates": true,
     "systemAlerts": true,
     "weeklyReports": false
+},
+  "style": {
+    "colors": {
+      "primary": "#3b82f6",
+      "secondary": "#8b5cf6",
+      "accent": "#06b6d4",
+      "background": "#ffffff",
+      "surface": "#f8fafc",
+      "text": "#1f2937",
+      "textSecondary": "#6b7280",
+      "border": "#e5e7eb"
+    },
+    "typography": {
+      "fontFamily": "Inter",
+      "fontSize": 16,
+      "fontWeight": 400,
+      "lineHeight": 1.5
+    },
+    "spacing": {
+      "padding": 16,
+      "margin": 16,
+      "gap": 8
+    },
+    "borders": {
+      "width": 1,
+      "radius": 8,
+      "style": "solid"
+    }
   }
 }

@@ -35,6 +35,14 @@ const [widget, setWidget] = useState({
     theme: 'minimal',
     maxPosts: 10,
     sortBy: 'newest',
+    visibilitySettings: {
+      showLikes: true,
+      showComments: true,
+      showText: true,
+      showAuthor: true,
+      showTimestamp: true,
+      showPlatformBadge: true
+    },
     sliderSettings: {
       autoplay: true,
       autoplayDelay: 3000,
@@ -123,9 +131,18 @@ const loadWidget = async () => {
       setError('');
       const widgetData = await widgetService.getById(id);
       
-      // Ensure all layout settings exist with fallbacks
+// Ensure all layout settings exist with fallbacks
       const safeWidgetData = {
         ...widgetData,
+        visibilitySettings: {
+          showLikes: true,
+          showComments: true,
+          showText: true,
+          showAuthor: true,
+          showTimestamp: true,
+          showPlatformBadge: true,
+          ...(widgetData.visibilitySettings || {})
+        },
         sliderSettings: {
           autoplay: true,
           autoplayDelay: 3000,
@@ -189,7 +206,11 @@ const loadTemplate = async () => {
         theme: templateData.theme || "minimal",
         maxPosts: templateData.maxPosts || 10,
         sortBy: templateData.sortBy || "newest",
-        // Preserve existing layout settings and merge with template data
+// Preserve existing layout settings and merge with template data
+        visibilitySettings: {
+          ...prev.visibilitySettings,
+          ...(templateData.visibilitySettings || {})
+        },
         sliderSettings: {
           ...prev.sliderSettings,
           ...(templateData.sliderSettings || {})
@@ -233,8 +254,16 @@ const loadFromUrlParams = () => {
           ...(filters && { filters: JSON.parse(filters) }),
           ...(layout && { layout }),
           ...(theme && { theme }),
-          ...(maxPosts && { maxPosts: parseInt(maxPosts) }),
+...(maxPosts && { maxPosts: parseInt(maxPosts) }),
           // Ensure layout settings remain intact
+          visibilitySettings: prev.visibilitySettings || {
+            showLikes: true,
+            showComments: true,
+            showText: true,
+            showAuthor: true,
+            showTimestamp: true,
+            showPlatformBadge: true
+          },
           sliderSettings: prev.sliderSettings || {
             autoplay: true,
             autoplayDelay: 3000,
@@ -480,9 +509,119 @@ useEffect(() => {
                   options={sortOptions}
                 />
               </div>
-            </div>
+</div>
           </Card>
 
+          {/* Visibility Settings */}
+          <Card>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Element Visibility</h3>
+            <p className="text-sm text-gray-600 mb-6">Control which elements are displayed in your widget posts</p>
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <label className="text-sm font-medium text-gray-700">Like Count</label>
+                    <p className="text-xs text-gray-600">Show number of likes</p>
+                  </div>
+                  <Checkbox
+                    checked={widget.visibilitySettings.showLikes}
+                    onChange={(e) => setWidget(prev => ({
+                      ...prev,
+                      visibilitySettings: {
+                        ...prev.visibilitySettings,
+                        showLikes: e.target.checked
+                      }
+                    }))}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <label className="text-sm font-medium text-gray-700">Comment Count</label>
+                    <p className="text-xs text-gray-600">Show number of comments</p>
+                  </div>
+                  <Checkbox
+                    checked={widget.visibilitySettings.showComments}
+                    onChange={(e) => setWidget(prev => ({
+                      ...prev,
+                      visibilitySettings: {
+                        ...prev.visibilitySettings,
+                        showComments: e.target.checked
+                      }
+                    }))}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <label className="text-sm font-medium text-gray-700">Post Text</label>
+                    <p className="text-xs text-gray-600">Show post content</p>
+                  </div>
+                  <Checkbox
+                    checked={widget.visibilitySettings.showText}
+                    onChange={(e) => setWidget(prev => ({
+                      ...prev,
+                      visibilitySettings: {
+                        ...prev.visibilitySettings,
+                        showText: e.target.checked
+                      }
+                    }))}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <label className="text-sm font-medium text-gray-700">Author Info</label>
+                    <p className="text-xs text-gray-600">Show author name and avatar</p>
+                  </div>
+                  <Checkbox
+                    checked={widget.visibilitySettings.showAuthor}
+                    onChange={(e) => setWidget(prev => ({
+                      ...prev,
+                      visibilitySettings: {
+                        ...prev.visibilitySettings,
+                        showAuthor: e.target.checked
+                      }
+                    }))}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <label className="text-sm font-medium text-gray-700">Timestamp</label>
+                    <p className="text-xs text-gray-600">Show post date</p>
+                  </div>
+                  <Checkbox
+                    checked={widget.visibilitySettings.showTimestamp}
+                    onChange={(e) => setWidget(prev => ({
+                      ...prev,
+                      visibilitySettings: {
+                        ...prev.visibilitySettings,
+                        showTimestamp: e.target.checked
+                      }
+                    }))}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <label className="text-sm font-medium text-gray-700">Platform Badge</label>
+                    <p className="text-xs text-gray-600">Show platform icon and name</p>
+                  </div>
+                  <Checkbox
+                    checked={widget.visibilitySettings.showPlatformBadge}
+                    onChange={(e) => setWidget(prev => ({
+                      ...prev,
+                      visibilitySettings: {
+                        ...prev.visibilitySettings,
+                        showPlatformBadge: e.target.checked
+                      }
+                    }))}
+                  />
+                </div>
+              </div>
+            </div>
+          </Card>
           {/* Theme & Layout Settings */}
           <Card>
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Theme & Layout</h3>

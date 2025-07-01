@@ -22,9 +22,18 @@ async getById(id) {
 
 async create(widgetData) {
     await new Promise(resolve => setTimeout(resolve, 400))
-    const newWidget = {
+const newWidget = {
       ...widgetData,
       Id: Math.max(...widgets.map(w => w.Id || 0), 0) + 1,
+      visibilitySettings: {
+        showLikes: true,
+        showComments: true,
+        showText: true,
+        showAuthor: true,
+        showTimestamp: true,
+        showPlatformBadge: true,
+        ...(widgetData.visibilitySettings || {})
+      },
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     }
@@ -41,10 +50,20 @@ async update(id, widgetData) {
       console.error(`Widget not found for update with ID: ${id}. Available widgets:`, widgets.map(w => ({ Id: w.Id, name: w.name })))
       throw new Error(`Widget not found for update: ${id}`)
     }
-    widgets[index] = {
+widgets[index] = {
       ...widgets[index],
       ...widgetData,
       Id: numericId, // Maintain consistent uppercase 'Id'
+      visibilitySettings: {
+        showLikes: true,
+        showComments: true,
+        showText: true,
+        showAuthor: true,
+        showTimestamp: true,
+        showPlatformBadge: true,
+        ...(widgets[index].visibilitySettings || {}),
+        ...(widgetData.visibilitySettings || {})
+      },
       updatedAt: new Date().toISOString()
     }
     return { ...widgets[index] }

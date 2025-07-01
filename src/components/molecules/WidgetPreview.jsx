@@ -225,11 +225,12 @@ navigation={widget?.sliderSettings?.navigation !== false}
               className="widget-swiper"
             >
               {displayPosts.map((post, index) => (
-                <SwiperSlide key={post.Id}>
+<SwiperSlide key={post.Id}>
                   <PostCard
                     post={post}
                     layout={widget.layout}
                     theme={activeTheme}
+                    visibilitySettings={widget.visibilitySettings}
                   />
                 </SwiperSlide>
               ))}
@@ -241,7 +242,7 @@ navigation={widget?.sliderSettings?.navigation !== false}
                 const isAlternate = widget?.layout === 'list' && settings.alternateLayout && index % 2 === 1
                 
                 return (
-                  <PostCard
+<PostCard
                     key={post.Id}
                     post={post}
                     layout={widget?.layout}
@@ -249,6 +250,7 @@ navigation={widget?.sliderSettings?.navigation !== false}
                     layoutSettings={settings}
                     isAlternate={isAlternate}
                     animationDelay={settings.animation === 'stagger' || settings.animation === 'cascade' ? index * 100 : 0}
+                    visibilitySettings={widget.visibilitySettings}
                     className={`
                       ${widget?.layout === 'masonry' ? `break-inside-${settings.breakInside || 'avoid'}` : ''}
                       ${settings.animation === 'fadeIn' ? 'animate-fade-in' : ''}

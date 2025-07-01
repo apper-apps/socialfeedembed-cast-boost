@@ -11,7 +11,15 @@ const PostCard = ({
   className = '', 
   layoutSettings = {}, 
   isAlternate = false,
-  animationDelay = 0 
+  animationDelay = 0,
+  visibilitySettings = {
+    showLikes: true,
+    showComments: true,
+    showText: true,
+    showAuthor: true,
+    showTimestamp: true,
+    showPlatformBadge: true
+  }
 }) => {
   const platformColors = {
     twitter: 'twitter',
@@ -120,71 +128,85 @@ const isGridLayout = layout === 'grid'
             alt=""
             className="w-full h-full object-cover"
           />
-          <div className={`absolute ${theme === 'compact' || layoutSettings.compactMode ? 'top-1 right-1' : 'top-2 right-2'}`}>
-            <Badge variant={platformColors[post.platform]} size={theme === 'compact' || layoutSettings.compactMode ? 'xs' : 'sm'}>
-              <ApperIcon name={platformIcons[post.platform]} size={theme === 'compact' || layoutSettings.compactMode ? 10 : 12} className="mr-1" />
-              {theme === 'compact' || layoutSettings.compactMode ? '' : post.platform}
-            </Badge>
-</div>
+{visibilitySettings.showPlatformBadge && (
+            <div className={`absolute ${theme === 'compact' || layoutSettings.compactMode ? 'top-1 right-1' : 'top-2 right-2'}`}>
+              <Badge variant={platformColors[post.platform]} size={theme === 'compact' || layoutSettings.compactMode ? 'xs' : 'sm'}>
+                <ApperIcon name={platformIcons[post.platform]} size={theme === 'compact' || layoutSettings.compactMode ? 10 : 12} className="mr-1" />
+                {theme === 'compact' || layoutSettings.compactMode ? '' : post.platform}
+              </Badge>
+            </div>
+          )}
         </div>
       )}
 
       {/* Content */}
-      <div className={`${getPadding()} flex-1`}>
+<div className={`${getPadding()} flex-1`}>
         {/* Header */}
-        <div className={`flex items-center mb-3 ${theme === 'compact' ? 'space-x-2 mb-1' : 'space-x-3'}`}>
-          <img
-            src={post.avatar}
-            alt={post.author}
-            className={`rounded-full bg-gray-200 ${theme === 'compact' ? 'w-6 h-6' : 'w-8 h-8'}`}
-          />
-          <div className="flex-1 min-w-0">
-            <h4 className={`font-medium text-gray-900 truncate ${
-              theme === 'compact' ? 'text-sm' : 
-              theme === 'magazine' ? 'text-lg font-bold' : ''
+        {visibilitySettings.showAuthor && (
+          <div className={`flex items-center mb-3 ${theme === 'compact' ? 'space-x-2 mb-1' : 'space-x-3'}`}>
+            <img
+              src={post.avatar}
+              alt={post.author}
+              className={`rounded-full bg-gray-200 ${theme === 'compact' ? 'w-6 h-6' : 'w-8 h-8'}`}
+            />
+            <div className="flex-1 min-w-0">
+              <h4 className={`font-medium text-gray-900 truncate ${
+                theme === 'compact' ? 'text-sm' : 
+                theme === 'magazine' ? 'text-lg font-bold' : ''
+              }`}>
+                {post.author}
+              </h4>
+              {visibilitySettings.showTimestamp && (
+                <p className={`text-gray-500 ${
+                  theme === 'compact' ? 'text-xs' : 
+                  theme === 'magazine' ? 'text-sm font-medium' : 'text-xs'
+                }`}>
+                  {formatDistanceToNow(new Date(post.timestamp), { addSuffix: true })}
+                </p>
+              )}
+            </div>
+            {(!post.media || post.media.length === 0) && visibilitySettings.showPlatformBadge && (
+              <Badge variant={platformColors[post.platform]} size={theme === 'compact' ? 'xs' : 'sm'}>
+                <ApperIcon name={platformIcons[post.platform]} size={theme === 'compact' ? 10 : 12} className="mr-1" />
+                {theme === 'compact' ? '' : post.platform}
+              </Badge>
+            )}
+          </div>
+        )}
+
+{/* Content */}
+        {visibilitySettings.showText && (
+          <div className={theme === 'compact' ? 'mb-1' : 'mb-3'}>
+            <p className={`text-gray-700 ${
+              theme === 'compact' ? 'line-clamp-1 text-sm' :
+              theme === 'magazine' ? 'line-clamp-4 text-base leading-relaxed' :
+              isGridLayout ? 'line-clamp-3' : 'line-clamp-2'
             }`}>
-              {post.author}
-            </h4>
-            <p className={`text-gray-500 ${
-              theme === 'compact' ? 'text-xs' : 
-              theme === 'magazine' ? 'text-sm font-medium' : 'text-xs'
-            }`}>
-              {formatDistanceToNow(new Date(post.timestamp), { addSuffix: true })}
+              {post.content}
             </p>
           </div>
-          {(!post.media || post.media.length === 0) && (
-            <Badge variant={platformColors[post.platform]} size={theme === 'compact' ? 'xs' : 'sm'}>
-              <ApperIcon name={platformIcons[post.platform]} size={theme === 'compact' ? 10 : 12} className="mr-1" />
-              {theme === 'compact' ? '' : post.platform}
-            </Badge>
-          )}
-        </div>
+        )}
 
-        {/* Content */}
-        <div className={theme === 'compact' ? 'mb-1' : 'mb-3'}>
-          <p className={`text-gray-700 ${
-            theme === 'compact' ? 'line-clamp-1 text-sm' :
-            theme === 'magazine' ? 'line-clamp-4 text-base leading-relaxed' :
-            isGridLayout ? 'line-clamp-3' : 'line-clamp-2'
+{/* Engagement */}
+        {(visibilitySettings.showLikes || visibilitySettings.showComments) && (
+          <div className={`flex items-center text-gray-500 ${
+            theme === 'compact' ? 'space-x-2 text-xs' : 
+            theme === 'magazine' ? 'space-x-6 text-base' : 'space-x-4 text-sm'
           }`}>
-            {post.content}
-          </p>
-        </div>
-
-        {/* Engagement */}
-        <div className={`flex items-center text-gray-500 ${
-          theme === 'compact' ? 'space-x-2 text-xs' : 
-          theme === 'magazine' ? 'space-x-6 text-base' : 'space-x-4 text-sm'
-        }`}>
-          <div className="flex items-center space-x-1">
-            <ApperIcon name="Heart" size={theme === 'compact' ? 12 : theme === 'magazine' ? 16 : 14} />
-            <span>{post.likes.toLocaleString()}</span>
+            {visibilitySettings.showLikes && (
+              <div className="flex items-center space-x-1">
+                <ApperIcon name="Heart" size={theme === 'compact' ? 12 : theme === 'magazine' ? 16 : 14} />
+                <span>{post.likes.toLocaleString()}</span>
+              </div>
+            )}
+            {visibilitySettings.showComments && (
+              <div className="flex items-center space-x-1">
+                <ApperIcon name="MessageCircle" size={theme === 'compact' ? 12 : theme === 'magazine' ? 16 : 14} />
+                <span>{post.comments.toLocaleString()}</span>
+              </div>
+            )}
           </div>
-          <div className="flex items-center space-x-1">
-            <ApperIcon name="MessageCircle" size={theme === 'compact' ? 12 : theme === 'magazine' ? 16 : 14} />
-            <span>{post.comments.toLocaleString()}</span>
-          </div>
-        </div>
+        )}
       </div>
     </motion.div>
   )

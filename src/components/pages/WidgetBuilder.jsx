@@ -211,7 +211,7 @@ const themeOptions = [
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
         {/* Configuration Panel */}
-        <div className="space-y-6">
+<div className="space-y-6">
           {/* Basic Settings */}
           <Card>
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Basic Settings</h3>
@@ -224,20 +224,7 @@ const themeOptions = [
                 required
               />
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Select
-                  label="Layout"
-                  value={widget.layout}
-                  onChange={(e) => setWidget(prev => ({ ...prev, layout: e.target.value }))}
-                  options={layoutOptions}
-                />
-<ThemeSelector
-                  label="Theme"
-                  value={widget.theme}
-                  onChange={(theme) => setWidget(prev => ({ ...prev, theme }))}
-                  options={themeOptions}
-                  posts={posts.slice(0, 3)}
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Select
                   label="Max Posts"
                   value={widget.maxPosts}
@@ -248,6 +235,59 @@ const themeOptions = [
             </div>
           </Card>
 
+          {/* Theme & Layout Settings */}
+          <Card>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Theme & Layout</h3>
+            <div className="space-y-6">
+              <div>
+                <Select
+                  label="Layout"
+                  value={widget.layout}
+                  onChange={(e) => setWidget(prev => ({ ...prev, layout: e.target.value }))}
+                  options={layoutOptions}
+                  renderLayoutOption={(option, isSelected) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => setWidget(prev => ({ ...prev, layout: option.value }))}
+                      className={`w-full p-4 text-left border-2 rounded-lg transition-all duration-200 hover:shadow-md ${
+                        isSelected 
+                          ? 'border-primary bg-primary/5 shadow-md' 
+                          : 'border-gray-200 hover:border-gray-300'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h4 className="font-medium text-gray-900">{option.label}</h4>
+                          <p className="text-sm text-gray-600 mt-1">
+                            {option.value === 'grid' && 'Organized in responsive columns'}
+                            {option.value === 'list' && 'Stacked vertically for easy reading'}
+                            {option.value === 'masonry' && 'Dynamic heights for visual interest'}
+                          </p>
+                        </div>
+                        {isSelected && (
+                          <div className="w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                            <div className="w-2 h-2 bg-white rounded-full"></div>
+                          </div>
+                        )}
+                      </div>
+                    </button>
+                  )}
+                  isOpen={false}
+                />
+              </div>
+
+              <div>
+                <ThemeSelector
+                  label="Theme"
+                  value={widget.theme}
+                  onChange={(theme) => setWidget(prev => ({ ...prev, theme }))}
+                  options={themeOptions}
+                  posts={posts.slice(0, 3)}
+                />
+              </div>
+            </div>
+          </Card>
           {/* Platform Selection */}
           <Card>
             <PlatformSelector

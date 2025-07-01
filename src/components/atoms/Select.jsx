@@ -8,6 +8,7 @@ const Select = ({
   className = '', 
   required = false,
   renderOption = null,
+  renderLayoutOption = null,
   isOpen = false,
   onToggle = null,
   ...props 
@@ -28,7 +29,11 @@ const Select = ({
         </label>
       )}
 <div className="relative">
-        {renderOption ? (
+        {renderLayoutOption ? (
+          <div className="space-y-3">
+            {options.map((option) => renderLayoutOption(option, props.value === option.value))}
+          </div>
+        ) : renderOption ? (
           <div className="relative">
             <button
               type="button"

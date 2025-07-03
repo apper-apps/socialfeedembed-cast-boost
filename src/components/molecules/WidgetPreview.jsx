@@ -149,6 +149,7 @@ const getMaxHeightClasses = () => {
   }
 
   // Dummy posts for preview when no posts are provided
+// Dummy posts for preview when no posts are provided
   const dummyPosts = [
     {
       "Id": 1,
@@ -173,6 +174,17 @@ const getMaxHeightClasses = () => {
       "timestamp": "2023-12-15T08:15:00Z"
     },
     {
+      "Id": 3,
+      "platform": "facebook",
+      "author": "LocalBusiness",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=faces",
+      "content": "Thank you to all our customers who made this year incredible! We're planning something special for 2024. Stay tuned! 🎉",
+      "media": [],
+      "likes": 892,
+      "comments": 67,
+      "timestamp": "2023-12-14T16:45:00Z"
+    },
+    {
       "Id": 4,
       "platform": "linkedin",
       "author": "Sarah Chen",
@@ -182,6 +194,17 @@ const getMaxHeightClasses = () => {
       "likes": 543,
       "comments": 32,
       "timestamp": "2023-12-14T14:20:00Z"
+    },
+    {
+      "Id": 5,
+      "platform": "twitter",
+      "author": "DesignStudio",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=faces",
+      "content": "New project reveal! We helped @ClientName create a brand identity that truly represents their values. #design #branding #identity",
+      "media": ["https://images.unsplash.com/photo-1586717799252-bd134ad00e26?w=400&h=300&fit=crop"],
+      "likes": 756,
+      "comments": 45,
+      "timestamp": "2023-12-14T12:00:00Z"
     },
     {
       "Id": 6,
@@ -195,6 +218,17 @@ const getMaxHeightClasses = () => {
       "timestamp": "2023-12-13T19:30:00Z"
     },
     {
+      "Id": 7,
+      "platform": "youtube",
+      "author": "TechReviewer",
+      "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=faces",
+      "content": "Just published my review of the latest smartphone! The camera quality is absolutely stunning. Link in bio! #tech #review #smartphone",
+      "media": ["https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400&h=300&fit=crop"],
+      "likes": 3247,
+      "comments": 178,
+      "timestamp": "2023-12-13T15:45:00Z"
+    },
+    {
       "Id": 8,
       "platform": "twitter",
       "author": "StartupNews",
@@ -206,6 +240,50 @@ const getMaxHeightClasses = () => {
       "timestamp": "2023-12-13T11:20:00Z"
     },
     {
+      "Id": 9,
+      "platform": "linkedin",
+      "author": "Marketing Pro",
+      "avatar": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&h=100&fit=crop&crop=faces",
+      "content": "5 key lessons from running 100+ marketing campaigns this year. Thread below 👇 #marketing #lessons #growth #strategy",
+      "media": [],
+      "likes": 2134,
+      "comments": 89,
+      "timestamp": "2023-12-12T09:15:00Z"
+    },
+    {
+      "Id": 10,
+      "platform": "facebook",
+      "author": "Community Center",
+      "avatar": "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=100&h=100&fit=crop&crop=faces",
+      "content": "Our holiday charity drive was a huge success! Thanks to everyone who donated. Together we're making a difference in our community. ❤️",
+      "media": ["https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=400&h=300&fit=crop"],
+      "likes": 445,
+      "comments": 34,
+      "timestamp": "2023-12-12T16:00:00Z"
+    },
+    {
+      "Id": 11,
+      "platform": "instagram",
+      "author": "FitnessCoach",
+      "avatar": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=100&h=100&fit=crop&crop=faces",
+      "content": "Monday motivation! 💪 Remember, every small step counts towards your fitness goals. What's your workout plan for this week? #fitness #motivation #health",
+      "media": ["https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop"],
+      "likes": 987,
+      "comments": 67,
+      "timestamp": "2023-12-11T06:00:00Z"
+    },
+    {
+      "Id": 12,
+      "platform": "twitter",
+      "author": "DevCommunity",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=faces",
+      "content": "New open-source project alert! 🎯 We're building a tool to help developers manage their daily tasks more efficiently. Contributions welcome! #opensource #dev #productivity",
+      "media": ["https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=300&fit=crop"],
+      "likes": 1456,
+      "comments": 234,
+      "timestamp": "2023-12-10T13:30:00Z"
+    },
+    {
       "Id": 13,
       "platform": "tiktok",
       "author": "CreativeContent",
@@ -215,8 +293,29 @@ const getMaxHeightClasses = () => {
       "likes": 5432,
       "comments": 321,
       "timestamp": "2023-12-10T10:45:00Z"
+    },
+    {
+      "Id": 14,
+      "platform": "linkedin",
+      "author": "Business Leader",
+      "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=faces",
+      "content": "Reflecting on Q4 achievements and setting ambitious goals for 2024. The key to success is continuous learning and adaptation. #leadership #goals #growth",
+      "media": [],
+      "likes": 1876,
+      "comments": 123,
+      "timestamp": "2023-12-09T08:20:00Z"
+    },
+    {
+      "Id": 15,
+      "platform": "facebook",
+      "author": "Art Gallery",
+      "avatar": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=faces",
+      "content": "Our new exhibition 'Modern Expressions' opens this weekend! Join us for the opening reception on Saturday. Art lovers welcome! 🎨",
+      "media": ["https://images.unsplash.com/photo-1578662996442-ac3d0b05b6e7?w=400&h=300&fit=crop"],
+      "likes": 234,
+      "comments": 18,
+      "timestamp": "2023-12-08T14:15:00Z"
     }
-  ]
 
 // Use provided posts or fallback to dummy posts for preview
   const postsToDisplay = posts.length > 0 ? posts : dummyPosts

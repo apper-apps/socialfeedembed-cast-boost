@@ -315,9 +315,10 @@ const getMaxHeightClasses = () => {
       "likes": 234,
       "comments": 18,
       "timestamp": "2023-12-08T14:15:00Z"
-    }
+}
+  ]
 
-// Use provided posts or fallback to dummy posts for preview
+  // Use provided posts or fallback to dummy posts for preview
   const postsToDisplay = posts.length > 0 ? posts : dummyPosts
   const displayPosts = postsToDisplay.slice(0, widget.maxPosts || 10)
   const getStickyClasses = () => {

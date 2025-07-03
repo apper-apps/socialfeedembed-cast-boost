@@ -1,10 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 import ApperIcon from "@/components/ApperIcon";
 import PostCard from "@/components/molecules/PostCard";
 
@@ -138,7 +138,7 @@ const getContentClasses = () => {
     return themeStyles[activeTheme] || themeStyles.minimal
   }
 
-  const getMaxHeightClasses = () => {
+const getMaxHeightClasses = () => {
     const themeStyles = {
       minimal: 'max-h-96',
       card: 'max-h-80',
@@ -148,8 +148,79 @@ const getContentClasses = () => {
     return themeStyles[activeTheme] || themeStyles.minimal
   }
 
-const displayPosts = posts.slice(0, widget.maxPosts || 10)
+  // Dummy posts for preview when no posts are provided
+  const dummyPosts = [
+    {
+      "Id": 1,
+      "platform": "twitter",
+      "author": "TechStartup",
+      "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=faces",
+      "content": "Excited to announce our new AI-powered feature! 🚀 This will revolutionize how teams collaborate. #innovation #AI #startup",
+      "media": ["https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=300&fit=crop"],
+      "likes": 1247,
+      "comments": 89,
+      "timestamp": "2023-12-15T10:30:00Z"
+    },
+    {
+      "Id": 2,
+      "platform": "instagram",
+      "author": "CreativeAgency",
+      "avatar": "https://images.unsplash.com/photo-1494790108755-2616b612b2e6?w=100&h=100&fit=crop&crop=faces",
+      "content": "Behind the scenes of our latest campaign shoot ✨ The team worked incredibly hard to bring this vision to life! #creative #campaign #teamwork",
+      "media": ["https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400&h=400&fit=crop"],
+      "likes": 2156,
+      "comments": 134,
+      "timestamp": "2023-12-15T08:15:00Z"
+    },
+    {
+      "Id": 4,
+      "platform": "linkedin",
+      "author": "Sarah Chen",
+      "avatar": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=faces",
+      "content": "Just finished an amazing conference on digital transformation. Key takeaway: The future belongs to companies that embrace change. #conference #digitaltransformation #leadership",
+      "media": ["https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=300&fit=crop"],
+      "likes": 543,
+      "comments": 32,
+      "timestamp": "2023-12-14T14:20:00Z"
+    },
+    {
+      "Id": 6,
+      "platform": "instagram",
+      "author": "FoodieCorner",
+      "avatar": "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=100&h=100&fit=crop&crop=faces",
+      "content": "Fresh ingredients, bold flavors, happy customers! 🍕 What's your favorite pizza topping? #food #pizza #fresh #local",
+      "media": ["https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=400&fit=crop"],
+      "likes": 1834,
+      "comments": 201,
+      "timestamp": "2023-12-13T19:30:00Z"
+    },
+    {
+      "Id": 8,
+      "platform": "twitter",
+      "author": "StartupNews",
+      "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&h=100&fit=crop&crop=faces",
+      "content": "BREAKING: Another unicorn startup emerges from the fintech space! 🦄 The industry continues to evolve at breakneck speed. #fintech #startup #unicorn #news",
+      "media": [],
+      "likes": 1923,
+      "comments": 156,
+      "timestamp": "2023-12-13T11:20:00Z"
+    },
+    {
+      "Id": 13,
+      "platform": "tiktok",
+      "author": "CreativeContent",
+      "avatar": "https://images.unsplash.com/photo-1494790108755-2616b612b2e6?w=100&h=100&fit=crop&crop=faces",
+      "content": "Quick design tip: Use the rule of thirds to create more visually appealing layouts! ✨ Save this for later! #design #tips #creative",
+      "media": ["https://images.unsplash.com/photo-1586717799252-bd134ad00e26?w=400&h=400&fit=crop"],
+      "likes": 5432,
+      "comments": 321,
+      "timestamp": "2023-12-10T10:45:00Z"
+    }
+  ]
 
+// Use provided posts or fallback to dummy posts for preview
+  const postsToDisplay = posts.length > 0 ? posts : dummyPosts
+  const displayPosts = postsToDisplay.slice(0, widget.maxPosts || 10)
   const getStickyClasses = () => {
     if (!sticky) return ''
     
@@ -203,15 +274,15 @@ return (
 {/* Widget Content */}
       <div className={`${getContentClasses()} ${getMaxHeightClasses()} overflow-y-auto overflow-x-hidden`}>
         {displayPosts.length > 0 ? (
-widget.layout === 'slider' ? (
+          widget.layout === 'slider' ? (
             <Swiper
               modules={[Navigation, Pagination, Autoplay]}
               spaceBetween={16}
-              slidesPerView={1}
-navigation={widget?.sliderSettings?.navigation !== false}
+slidesPerView={1}
+              navigation={widget?.sliderSettings?.navigation !== false}
               pagination={widget?.sliderSettings?.pagination !== false ? { clickable: true } : false}
               autoplay={widget?.sliderSettings?.autoplay !== false ? { 
-                delay: widget?.sliderSettings?.autoplayDelay || 3000, 
+                delay: widget?.sliderSettings?.autoplayDelay || 3000,
                 disableOnInteraction: false 
               } : false}
               speed={widget?.sliderSettings?.speed || 300}
@@ -224,8 +295,8 @@ navigation={widget?.sliderSettings?.navigation !== false}
               }}
               className="widget-swiper"
             >
-              {displayPosts.map((post, index) => (
-<SwiperSlide key={post.Id}>
+{displayPosts.map((post, index) => (
+                <SwiperSlide key={post.Id}>
                   <PostCard
                     post={post}
                     layout={widget.layout}
@@ -234,15 +305,15 @@ navigation={widget?.sliderSettings?.navigation !== false}
                   />
                 </SwiperSlide>
               ))}
-            </Swiper>
-) : (
-<div className={getLayoutClasses()}>
+</Swiper>
+          ) : (
+            <div className={getLayoutClasses()}>
               {displayPosts.map((post, index) => {
                 const settings = widget?.[`${widget.layout}Settings`] || {}
                 const isAlternate = widget?.layout === 'list' && settings.alternateLayout && index % 2 === 1
                 
-                return (
-<PostCard
+return (
+                  <PostCard
                     key={post.Id}
                     post={post}
                     layout={widget?.layout}
